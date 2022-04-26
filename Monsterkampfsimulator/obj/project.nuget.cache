@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "vDQA8SSErOUXtEHKe7EzyvK3t3Sr+mJCN3BrnbqMrGzjuyceo798IIFYWZAXHXJfFp1LEwIhMdKBywfHC0EIeg==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\tobia\\source\\repos\\Monsterkampfsimulator - Kopie\\Monsterkampfsimulator\\Monsterkampfsimulator.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\tobia\\.nuget\\packages\\microsoft.win32.systemevents\\6.0.0\\microsoft.win32.systemevents.6.0.0.nupkg.sha512",
+    "C:\\Users\\tobia\\.nuget\\packages\\system.drawing.common\\6.0.0\\system.drawing.common.6.0.0.nupkg.sha512",
+    "C:\\Users\\tobia\\.nuget\\packages\\system.windows.extensions\\6.0.0\\system.windows.extensions.6.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}
