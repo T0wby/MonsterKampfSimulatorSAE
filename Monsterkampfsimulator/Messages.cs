@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Monsterkampfsimulator
 {
-    internal class Messages
+    static class Messages
     {
         // Variable used for the color of the user input
         public static ConsoleColor green = ConsoleColor.Green;

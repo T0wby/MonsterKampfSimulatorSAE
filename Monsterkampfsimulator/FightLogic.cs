@@ -5,7 +5,7 @@ using System.Threading;
 
 namespace Monsterkampfsimulator
 {
-    internal class FightLogic
+    static class FightLogic
     {
         // Strings used for the user input
         static string race1;

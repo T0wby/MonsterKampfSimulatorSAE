@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\tobia\\source\\repos\\Monsterkampfsimulator - Kopie\\Monsterkampfsimulator\\Monsterkampfsimulator.csproj": {}
+    "C:\\Users\\tobia\\Documents\\MonsterKampfSimulatorSAEGit\\Monsterkampfsimulator\\Monsterkampfsimulator.csproj": {}
   },
   "projects": {
-    "C:\\Users\\tobia\\source\\repos\\Monsterkampfsimulator - Kopie\\Monsterkampfsimulator\\Monsterkampfsimulator.csproj": {
+    "C:\\Users\\tobia\\Documents\\MonsterKampfSimulatorSAEGit\\Monsterkampfsimulator\\Monsterkampfsimulator.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\tobia\\source\\repos\\Monsterkampfsimulator - Kopie\\Monsterkampfsimulator\\Monsterkampfsimulator.csproj",
+        "projectUniqueName": "C:\\Users\\tobia\\Documents\\MonsterKampfSimulatorSAEGit\\Monsterkampfsimulator\\Monsterkampfsimulator.csproj",
         "projectName": "Monsterkampfsimulator",
-        "projectPath": "C:\\Users\\tobia\\source\\repos\\Monsterkampfsimulator - Kopie\\Monsterkampfsimulator\\Monsterkampfsimulator.csproj",
+        "projectPath": "C:\\Users\\tobia\\Documents\\MonsterKampfSimulatorSAEGit\\Monsterkampfsimulator\\Monsterkampfsimulator.csproj",
         "packagesPath": "C:\\Users\\tobia\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\tobia\\source\\repos\\Monsterkampfsimulator - Kopie\\Monsterkampfsimulator\\obj\\",
+        "outputPath": "C:\\Users\\tobia\\Documents\\MonsterKampfSimulatorSAEGit\\Monsterkampfsimulator\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
