@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Monsterkampfsimulator
 {
-    internal class Messages
+    static class Messages
     {
         // Variable used for the color of the user input
         public static ConsoleColor green = ConsoleColor.Green;
@@ -48,6 +48,15 @@ namespace Monsterkampfsimulator
             Console.ForegroundColor = cc;
             Console.WriteLine(Input);
             Console.ResetColor();
+        }
+
+        public static string UserInputMessage(ConsoleColor cc = ConsoleColor.Green)
+        {
+            string input;
+            Console.ForegroundColor = cc;
+            input = Console.ReadLine();
+            Console.ResetColor();
+            return input;
         }
 
         /** Starting with setting the console size if possible, writing a text and looping the main song **/
@@ -130,20 +139,20 @@ namespace Monsterkampfsimulator
 ██████   ██████         ██     ██████   ██████      ██      ██  ██████ ██   ██     ██      ██ ██   ██ ███████    ██      ██");
 
             PrintOrkMessageColor(@"
- ██████╗ ██████╗ ██╗  ██╗
-██╔═══██╗██╔══██╗██║ ██╔╝
-██║   ██║██████╔╝█████╔╝ 
-██║   ██║██╔══██╗██╔═██╗ 
-╚██████╔╝██║  ██║██║  ██╗
- ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝");
+ ██╗        ██████╗ ██████╗ ██╗  ██╗
+███║       ██╔═══██╗██╔══██╗██║ ██╔╝
+╚██║       ██║   ██║██████╔╝█████╔╝ 
+ ██║       ██║   ██║██╔══██╗██╔═██╗ 
+ ██║██╗    ╚██████╔╝██║  ██║██║  ██╗
+ ╚═╝╚═╝     ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝");
 
             PrintTrollMessageColor(@"
-████████╗██████╗  ██████╗ ██╗     ██╗     
-╚══██╔══╝██╔══██╗██╔═══██╗██║     ██║     
-   ██║   ██████╔╝██║   ██║██║     ██║     
-   ██║   ██╔══██╗██║   ██║██║     ██║     
-   ██║   ██║  ██║╚██████╔╝███████╗███████╗
-   ╚═╝   ╚═╝  ╚═╝ ╚═════╝ ╚══════╝╚══════╝");
+██████╗        ████████╗██████╗  ██████╗ ██╗     ██╗     
+╚════██╗       ╚══██╔══╝██╔══██╗██╔═══██╗██║     ██║     
+ █████╔╝          ██║   ██████╔╝██║   ██║██║     ██║     
+██╔═══╝           ██║   ██╔══██╗██║   ██║██║     ██║     
+███████╗██╗       ██║   ██║  ██║╚██████╔╝███████╗███████╗
+╚══════╝╚═╝       ╚═╝   ╚═╝  ╚═╝ ╚═════╝ ╚══════╝╚══════╝");
 
             PrintConsoleMessageColor(@"
  ██████ ██████  
@@ -153,12 +162,12 @@ namespace Monsterkampfsimulator
  ██████ ██   ██ ");
 
             PrintGoblinMessageColor(@"
- ██████╗  ██████╗ ██████╗ ██╗     ██╗███╗   ██╗
-██╔════╝ ██╔═══██╗██╔══██╗██║     ██║████╗  ██║
-██║  ███╗██║   ██║██████╔╝██║     ██║██╔██╗ ██║
-██║   ██║██║   ██║██╔══██╗██║     ██║██║╚██╗██║
-╚██████╔╝╚██████╔╝██████╔╝███████╗██║██║ ╚████║
- ╚═════╝  ╚═════╝ ╚═════╝ ╚══════╝╚═╝╚═╝  ╚═══╝");
+██████╗         ██████╗  ██████╗ ██████╗ ██╗     ██╗███╗   ██╗
+╚════██╗       ██╔════╝ ██╔═══██╗██╔══██╗██║     ██║████╗  ██║
+ █████╔╝       ██║  ███╗██║   ██║██████╔╝██║     ██║██╔██╗ ██║
+ ╚═══██╗       ██║   ██║██║   ██║██╔══██╗██║     ██║██║╚██╗██║
+██████╔╝██╗    ╚██████╔╝╚██████╔╝██████╔╝███████╗██║██║ ╚████║
+╚═════╝ ╚═╝     ╚═════╝  ╚═════╝ ╚═════╝ ╚══════╝╚═╝╚═╝  ╚═══╝");
         }
 
         /** Explanation message for the attributes and how we collect them **/

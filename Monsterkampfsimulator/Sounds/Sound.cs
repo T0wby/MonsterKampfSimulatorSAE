@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Monsterkampfsimulator
 {
-    public static class Sound
+    static class Sound
     {
         public static SoundPlayer punchOnePlayer;
         public static SoundPlayer punchTwoPlayer;

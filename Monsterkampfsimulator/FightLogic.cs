@@ -5,7 +5,7 @@ using System.Threading;
 
 namespace Monsterkampfsimulator
 {
-    internal class FightLogic
+    static class FightLogic
     {
         // Strings used for the user input
         static string race1;
@@ -54,21 +54,28 @@ namespace Monsterkampfsimulator
             // Doing a do-while loop in order to redo the action until we have a valid input
             do
             {
-                Console.ForegroundColor = Messages.green;
-                race1 = Console.ReadLine();
-                Console.ResetColor();
+                race1 = Messages.UserInputMessage();
                 // Switch case in order to set attributes for our first fighter and setting the string to all lower cases to ignore case sensitivity
                 switch (race1.ToLower())
                 {
+                    case "1":
                     case "ork":
+                        if(race1.ToLower() == "1")
+                            race1 = "Ork";
                         Ork.Chosen = true;
                         bNotMatching = false;
                         break;
+                    case "2":
                     case "troll":
+                        if (race1.ToLower() == "2")
+                            race1 = "Troll";
                         Troll.Chosen = true;
                         bNotMatching = false;
                         break;
+                    case "3":
                     case "goblin":
+                        if (race1.ToLower() == "3")
+                            race1 = "Goblin";
                         Goblin.Chosen = true;
                         bNotMatching = false;
                         break;
@@ -102,12 +109,12 @@ namespace Monsterkampfsimulator
                 if (Ork.Chosen)
                 {
                     Messages.PrintTrollMessageColor(@"
-████████╗██████╗  ██████╗ ██╗     ██╗     
-╚══██╔══╝██╔══██╗██╔═══██╗██║     ██║     
-   ██║   ██████╔╝██║   ██║██║     ██║     
-   ██║   ██╔══██╗██║   ██║██║     ██║     
-   ██║   ██║  ██║╚██████╔╝███████╗███████╗
-   ╚═╝   ╚═╝  ╚═╝ ╚═════╝ ╚══════╝╚══════╝");
+ ██╗       ████████╗██████╗  ██████╗ ██╗     ██╗     
+███║       ╚══██╔══╝██╔══██╗██╔═══██╗██║     ██║     
+╚██║          ██║   ██████╔╝██║   ██║██║     ██║     
+ ██║          ██║   ██╔══██╗██║   ██║██║     ██║     
+ ██║██╗       ██║   ██║  ██║╚██████╔╝███████╗███████╗
+ ╚═╝╚═╝       ╚═╝   ╚═╝  ╚═╝ ╚═════╝ ╚══════╝╚══════╝");
                     Messages.PrintConsoleMessageColor(@"
  ██████ ██████  
 ██    ████   ██ 
@@ -115,22 +122,55 @@ namespace Monsterkampfsimulator
 ██    ████   ██ 
  ██████ ██   ██ ");
                     Messages.PrintGoblinMessageColor(@"
- ██████╗  ██████╗ ██████╗ ██╗     ██╗███╗   ██╗
-██╔════╝ ██╔═══██╗██╔══██╗██║     ██║████╗  ██║
-██║  ███╗██║   ██║██████╔╝██║     ██║██╔██╗ ██║
-██║   ██║██║   ██║██╔══██╗██║     ██║██║╚██╗██║
-╚██████╔╝╚██████╔╝██████╔╝███████╗██║██║ ╚████║
- ╚═════╝  ╚═════╝ ╚═════╝ ╚══════╝╚═╝╚═╝  ╚═══╝");
+██████╗         ██████╗  ██████╗ ██████╗ ██╗     ██╗███╗   ██╗
+╚════██╗       ██╔════╝ ██╔═══██╗██╔══██╗██║     ██║████╗  ██║
+ █████╔╝       ██║  ███╗██║   ██║██████╔╝██║     ██║██╔██╗ ██║
+██╔═══╝        ██║   ██║██║   ██║██╔══██╗██║     ██║██║╚██╗██║
+███████╗██╗    ╚██████╔╝╚██████╔╝██████╔╝███████╗██║██║ ╚████║
+╚══════╝╚═╝     ╚═════╝  ╚═════╝ ╚═════╝ ╚══════╝╚═╝╚═╝  ╚═══╝");
+
+                    race2 = Messages.UserInputMessage();
+
+                    // We check if the user selected the same race again and print a message if he did so. Otherwise we use a 2nd switch statement to create the 2nd fighter object.
+                    if (race1.ToLower() == race2.ToLower())
+                    {
+                        Messages.PrintErrorColor($"{race1} was already chosen as the first fighter! Please chose one of the other two that are available\n----------------");
+                        bNotMatching = true;
+                    }
+                    else
+                    {
+                        switch (race2.ToLower())
+                        {
+                            case "1":
+                            case "troll":
+                                if (race2.ToLower() == "1")
+                                    race2 = "Troll";
+                                Troll.Chosen = true;
+                                bNotMatching = false;
+                                break;
+                            case "2":
+                            case "goblin":
+                                if (race2.ToLower() == "2")
+                                    race2 = "Goblin";
+                                Goblin.Chosen = true;
+                                bNotMatching = false;
+                                break;
+                            default:
+                                bNotMatching = true;
+                                Messages.PrintErrorColor("Please make sure that you write the fighters names correctly!\n");
+                                break;
+                        }
+                    }
                 }
                 else if (Troll.Chosen)
                 {
                     Messages.PrintOrkMessageColor(@"
- ██████╗ ██████╗ ██╗  ██╗
-██╔═══██╗██╔══██╗██║ ██╔╝
-██║   ██║██████╔╝█████╔╝ 
-██║   ██║██╔══██╗██╔═██╗ 
-╚██████╔╝██║  ██║██║  ██╗
- ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝");
+ ██╗        ██████╗ ██████╗ ██╗  ██╗
+███║       ██╔═══██╗██╔══██╗██║ ██╔╝
+╚██║       ██║   ██║██████╔╝█████╔╝ 
+ ██║       ██║   ██║██╔══██╗██╔═██╗ 
+ ██║██╗    ╚██████╔╝██║  ██║██║  ██╗
+ ╚═╝╚═╝     ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝");
                     Messages.PrintConsoleMessageColor(@"
  ██████ ██████  
 ██    ████   ██ 
@@ -138,22 +178,55 @@ namespace Monsterkampfsimulator
 ██    ████   ██ 
  ██████ ██   ██ ");
                     Messages.PrintGoblinMessageColor(@"
- ██████╗  ██████╗ ██████╗ ██╗     ██╗███╗   ██╗
-██╔════╝ ██╔═══██╗██╔══██╗██║     ██║████╗  ██║
-██║  ███╗██║   ██║██████╔╝██║     ██║██╔██╗ ██║
-██║   ██║██║   ██║██╔══██╗██║     ██║██║╚██╗██║
-╚██████╔╝╚██████╔╝██████╔╝███████╗██║██║ ╚████║
- ╚═════╝  ╚═════╝ ╚═════╝ ╚══════╝╚═╝╚═╝  ╚═══╝");
+██████╗         ██████╗  ██████╗ ██████╗ ██╗     ██╗███╗   ██╗
+╚════██╗       ██╔════╝ ██╔═══██╗██╔══██╗██║     ██║████╗  ██║
+ █████╔╝       ██║  ███╗██║   ██║██████╔╝██║     ██║██╔██╗ ██║
+██╔═══╝        ██║   ██║██║   ██║██╔══██╗██║     ██║██║╚██╗██║
+███████╗██╗    ╚██████╔╝╚██████╔╝██████╔╝███████╗██║██║ ╚████║
+╚══════╝╚═╝     ╚═════╝  ╚═════╝ ╚═════╝ ╚══════╝╚═╝╚═╝  ╚═══╝");
+
+                    race2 = Messages.UserInputMessage();
+
+                    // We check if the user selected the same race again and print a message if he did so. Otherwise we use a 2nd switch statement to create the 2nd fighter object.
+                    if (race1.ToLower() == race2.ToLower())
+                    {
+                        Messages.PrintErrorColor($"{race1} was already chosen as the first fighter! Please chose one of the other two that are available\n----------------");
+                        bNotMatching = true;
+                    }
+                    else
+                    {
+                        switch (race2.ToLower())
+                        {
+                            case "1":
+                            case "ork":
+                                if (race2.ToLower() == "1")
+                                    race2 = "Ork";
+                                Ork.Chosen = true;
+                                bNotMatching = false;
+                                break;
+                            case "2":
+                            case "goblin":
+                                if (race2.ToLower() == "2")
+                                    race2 = "Goblin";
+                                Goblin.Chosen = true;
+                                bNotMatching = false;
+                                break;
+                            default:
+                                bNotMatching = true;
+                                Messages.PrintErrorColor("Please make sure that you write the fighters names correctly!\n");
+                                break;
+                        }
+                    }
                 }
                 else
                 {
                     Messages.PrintOrkMessageColor(@"
- ██████╗ ██████╗ ██╗  ██╗
-██╔═══██╗██╔══██╗██║ ██╔╝
-██║   ██║██████╔╝█████╔╝ 
-██║   ██║██╔══██╗██╔═██╗ 
-╚██████╔╝██║  ██║██║  ██╗
- ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝");
+ ██╗        ██████╗ ██████╗ ██╗  ██╗
+███║       ██╔═══██╗██╔══██╗██║ ██╔╝
+╚██║       ██║   ██║██████╔╝█████╔╝ 
+ ██║       ██║   ██║██╔══██╗██╔═██╗ 
+ ██║██╗    ╚██████╔╝██║  ██║██║  ██╗
+ ╚═╝╚═╝     ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝");
                     Messages.PrintConsoleMessageColor(@"
  ██████ ██████  
 ██    ████   ██ 
@@ -161,46 +234,48 @@ namespace Monsterkampfsimulator
 ██    ████   ██ 
  ██████ ██   ██ ");
                     Messages.PrintTrollMessageColor(@"
-████████╗██████╗  ██████╗ ██╗     ██╗     
-╚══██╔══╝██╔══██╗██╔═══██╗██║     ██║     
-   ██║   ██████╔╝██║   ██║██║     ██║     
-   ██║   ██╔══██╗██║   ██║██║     ██║     
-   ██║   ██║  ██║╚██████╔╝███████╗███████╗
-   ╚═╝   ╚═╝  ╚═╝ ╚═════╝ ╚══════╝╚══════╝");
-                }
+██████╗        ████████╗██████╗  ██████╗ ██╗     ██╗     
+╚════██╗       ╚══██╔══╝██╔══██╗██╔═══██╗██║     ██║     
+ █████╔╝          ██║   ██████╔╝██║   ██║██║     ██║     
+██╔═══╝           ██║   ██╔══██╗██║   ██║██║     ██║     
+███████╗██╗       ██║   ██║  ██║╚██████╔╝███████╗███████╗
+╚══════╝╚═╝       ╚═╝   ╚═╝  ╚═╝ ╚═════╝ ╚══════╝╚══════╝");
 
-                Console.ForegroundColor = Messages.green;
-                race2 = Console.ReadLine();
-                Console.ResetColor();
+                    race2 = Messages.UserInputMessage();
 
-                // We check if the user selected the same race again and print a message if he did so. Otherwise we use a 2nd switch statement to create the 2nd fighter object.
-                if (race1.ToLower() == race2.ToLower())
-                {
-                    Messages.PrintErrorColor($"{race1} was already chosen as the first fighter! Please chose one of the other two that are available\n----------------");
-                    bNotMatching = true;
-                }
-                else
-                {
-                    switch (race2.ToLower())
+                    // We check if the user selected the same race again and print a message if he did so. Otherwise we use a 2nd switch statement to create the 2nd fighter object.
+                    if (race1.ToLower() == race2.ToLower())
                     {
-                        case "ork":
-                            Ork.Chosen = true;
-                            bNotMatching = false;
-                            break;
-                        case "troll":
-                            Troll.Chosen = true;
-                            bNotMatching = false;
-                            break;
-                        case "goblin":
-                            Goblin.Chosen = true;
-                            bNotMatching = false;
-                            break;
-                        default:
-                            bNotMatching = true;
-                            Messages.PrintErrorColor("Please make sure that you write the fighters names correctly!\n");
-                            break;
+                        Messages.PrintErrorColor($"{race1} was already chosen as the first fighter! Please chose one of the other two that are available\n----------------");
+                        bNotMatching = true;
+                    }
+                    else
+                    {
+                        switch (race2.ToLower())
+                        {
+                            case "1":
+                            case "ork":
+                                if (race2.ToLower() == "1")
+                                    race2 = "Ork";
+                                Ork.Chosen = true;
+                                bNotMatching = false;
+                                break;
+                            case "2":
+                            case "troll":
+                                if (race2.ToLower() == "2")
+                                    race2 = "Troll";
+                                Troll.Chosen = true;
+                                bNotMatching = false;
+                                break;
+                            default:
+                                bNotMatching = true;
+                                Messages.PrintErrorColor("Please make sure that you write the fighters names correctly!\n");
+                                break;
+                        }
                     }
                 }
+
+                
             } while (bNotMatching);
         }
 
@@ -571,7 +646,7 @@ namespace Monsterkampfsimulator
         /** Show the attributes of the first fighter before we enter the attributes of the 2nd one **/
         public static void ShowStatsFighterOne()
         {
-            if (Ork.Chosen)
+            if (race1.ToLower() == "ork")
             {
                 Messages.PrintConsoleMessageColor($@"
 |                 |  Ork
@@ -581,7 +656,7 @@ namespace Monsterkampfsimulator
 | Defensepoints:  | {Ork.Defensepoints}
 | Speed:          | {Ork.Speed}");
             }
-            else if (Goblin.Chosen)
+            else if (race1.ToLower() == "goblin")
             {
                 Messages.PrintConsoleMessageColor($@"
 |                 |  Goblin
