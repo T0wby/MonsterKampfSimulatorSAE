@@ -47,7 +47,7 @@ namespace Monsterkampfsimulator
         /** Randomized attack sounds **/
         public static void PlayRandomAttackSound()
         {
-            Random rnd = new Random();
+            Random rnd = new Random((DateTime.Now.Second * DateTime.Now.Millisecond + DateTime.Now.Hour));
             int rndNumber = rnd.Next(1, 8);
 
             switch (rndNumber)
