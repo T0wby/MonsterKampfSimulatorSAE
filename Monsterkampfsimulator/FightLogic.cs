@@ -1141,6 +1141,102 @@ namespace Monsterkampfsimulator
                     }
                 }
             }
+
+            Messages.PrintConsoleMessageColor("\nProgramm will resume in 10 seconds!!");
+        }
+
+        /** Clearing all stats if a user decides to play another round **/
+        public static void ClearAllStats()
+        {
+            // Resetting Ork stats for a new game
+            Ork.Lifepoints = 0;
+            Ork.Attackpower = 0;
+            Ork.Defensepoints = 0;
+            Ork.Speed = 0;
+            Ork.Chosen = false;
+            Ork.StartFight = false;
+
+            // Resetting Troll stats for a new game
+            Troll.Lifepoints = 0;
+            Troll.Attackpower = 0;
+            Troll.Defensepoints = 0;
+            Troll.Speed = 0;
+            Troll.Chosen = false;
+            Troll.StartFight = false;
+
+            // Resetting Goblin stats for a new game
+            Goblin.Lifepoints = 0;
+            Goblin.Attackpower = 0;
+            Goblin.Defensepoints = 0;
+            Goblin.Speed = 0;
+            Goblin.Chosen = false;
+            Goblin.StartFight = false;
+        }
+
+        /** Checking if the user wishes to play again or end the programm **/
+        public static void PlayAnother()
+        {
+            bool notChosen = true;
+
+            Messages.PrintConsoleMessageColor(@"
+██████╗  ██████╗     ██╗   ██╗ ██████╗ ██╗   ██╗    ██╗    ██╗██╗███████╗██╗  ██╗                                   
+██╔══██╗██╔═══██╗    ╚██╗ ██╔╝██╔═══██╗██║   ██║    ██║    ██║██║██╔════╝██║  ██║                                   
+██║  ██║██║   ██║     ╚████╔╝ ██║   ██║██║   ██║    ██║ █╗ ██║██║███████╗███████║                                   
+██║  ██║██║   ██║      ╚██╔╝  ██║   ██║██║   ██║    ██║███╗██║██║╚════██║██╔══██║                                   
+██████╔╝╚██████╔╝       ██║   ╚██████╔╝╚██████╔╝    ╚███╔███╔╝██║███████║██║  ██║                                   
+╚═════╝  ╚═════╝        ╚═╝    ╚═════╝  ╚═════╝      ╚══╝╚══╝ ╚═╝╚══════╝╚═╝  ╚═╝                                   
+                                                                                                                    
+████████╗ ██████╗     ██████╗ ██╗      █████╗ ██╗   ██╗                                                             
+╚══██╔══╝██╔═══██╗    ██╔══██╗██║     ██╔══██╗╚██╗ ██╔╝                                                             
+   ██║   ██║   ██║    ██████╔╝██║     ███████║ ╚████╔╝                                                              
+   ██║   ██║   ██║    ██╔═══╝ ██║     ██╔══██║  ╚██╔╝                                                               
+   ██║   ╚██████╔╝    ██║     ███████╗██║  ██║   ██║                                                                
+   ╚═╝    ╚═════╝     ╚═╝     ╚══════╝╚═╝  ╚═╝   ╚═╝                                                                
+                                                                                                                    
+ █████╗ ███╗   ██╗ ██████╗ ████████╗██╗  ██╗███████╗██████╗     ██████╗  ██████╗ ██╗   ██╗███╗   ██╗██████╗ ██████╗ 
+██╔══██╗████╗  ██║██╔═══██╗╚══██╔══╝██║  ██║██╔════╝██╔══██╗    ██╔══██╗██╔═══██╗██║   ██║████╗  ██║██╔══██╗╚════██╗
+███████║██╔██╗ ██║██║   ██║   ██║   ███████║█████╗  ██████╔╝    ██████╔╝██║   ██║██║   ██║██╔██╗ ██║██║  ██║  ▄███╔╝
+██╔══██║██║╚██╗██║██║   ██║   ██║   ██╔══██║██╔══╝  ██╔══██╗    ██╔══██╗██║   ██║██║   ██║██║╚██╗██║██║  ██║  ▀▀══╝ 
+██║  ██║██║ ╚████║╚██████╔╝   ██║   ██║  ██║███████╗██║  ██║    ██║  ██║╚██████╔╝╚██████╔╝██║ ╚████║██████╔╝  ██╗   
+╚═╝  ╚═╝╚═╝  ╚═══╝ ╚═════╝    ╚═╝   ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝    ╚═╝  ╚═╝ ╚═════╝  ╚═════╝ ╚═╝  ╚═══╝╚═════╝   ╚═╝   
+                                                                                                                    
+                                                                                                                    
+                                                                                                                    
+                                                                                                                    
+                                                                                                                    
+                                                                                                                    
+                                                                                                                    
+                                                                                                                    
+██╗   ██╗ ██╗███╗   ██╗██████╗                                                                                      
+╚██╗ ██╔╝██╔╝████╗  ██║╚════██╗                                                                                     
+ ╚████╔╝██╔╝ ██╔██╗ ██║  ▄███╔╝                                                                                     
+  ╚██╔╝██╔╝  ██║╚██╗██║  ▀▀══╝                                                                                      
+   ██║██╔╝   ██║ ╚████║  ██╗                                                                                        
+   ╚═╝╚═╝    ╚═╝  ╚═══╝  ╚═╝");
+
+            do
+            {
+                string userm = Messages.UserInputMessage();
+                switch (userm.ToLower())
+                {
+                    case "yes":
+                    case "y":
+                        Console.Clear();
+                        ClearAllStats();
+                        notChosen = false;
+                        Program.playAnother = true;
+                        break;
+                    case "no":
+                    case "n":
+                        notChosen = false;
+                        Program.playAnother = false;
+                        Environment.Exit(0);
+                        break;
+                    default:
+                        Messages.PrintErrorColor("\nMake sure to answer the question with a Yes/y or No/n!\n--------------------------");
+                        break;
+                }
+            } while (notChosen);
         }
     }
 }

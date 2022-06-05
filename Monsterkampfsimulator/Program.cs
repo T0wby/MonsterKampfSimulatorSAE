@@ -6,9 +6,13 @@ namespace Monsterkampfsimulator
 {
     class Program
     {
+        public static bool playAnother;
+
         static void Main(string[] args)
         {
-            // Build all sounds that are used during the game
+            do
+            {
+                // Build all sounds that are used during the game
             Sound.BuildSound();
 
             // Starting with setting the console size if possible, writing a text and looping the main song
@@ -73,8 +77,16 @@ namespace Monsterkampfsimulator
             // Play sound at the end
             Sound.PlayEndSound();
 
+            // Delay to Display end screen before we proceed
+            Thread.Sleep(10000);
+
             // Credits
             Messages.Credits();
+
+            // Last part of our game loop. Player gets the choice to end the game or play another round
+            FightLogic.PlayAnother();
+
+            } while (playAnother);
         }
     }
 }
