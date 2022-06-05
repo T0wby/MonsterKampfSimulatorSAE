@@ -231,6 +231,9 @@ namespace Monsterkampfsimulator
         {
             Console.WriteLine("\n\n\n\n\n");
             PrintConsoleMessageColor(@"
+-----------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------
 ██████╗██████╗ ███████╗██████╗ ██╗████████╗███████╗
 ██╔════╝██╔══██╗██╔════╝██╔══██╗██║╚══██╔══╝██╔════╝
 ██║     ██████╔╝█████╗  ██║  ██║██║   ██║   ███████╗
@@ -243,7 +246,8 @@ namespace Monsterkampfsimulator
                 "Countdown To Fight by Nakamurasensei | https://freesound.org/people/Nakamurasensei/sounds/472853/ \n" +
                 "Game_Over_01 by MATRIXXX_ | https://freesound.org/people/MATRIXXX_/sounds/345666/ \n\n" +
                 "Content Under 'Attribution Noncommercial License':\n" +
-                "Dramatic Scroller by FoolBoyMedia | https://freesound.org/people/FoolBoyMedia/sounds/270366/");
+                "Dramatic Scroller by FoolBoyMedia | https://freesound.org/people/FoolBoyMedia/sounds/270366/" +
+                "-----------------------------------------------------------------------------------");
         }
 
     }
