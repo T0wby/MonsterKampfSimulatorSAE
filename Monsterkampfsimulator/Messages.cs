@@ -241,12 +241,13 @@ namespace Monsterkampfsimulator
 ╚██████╗██║  ██║███████╗██████╔╝██║   ██║   ███████║
  ╚═════╝╚═╝  ╚═╝╚══════╝╚═════╝ ╚═╝   ╚═╝   ╚══════╝");
 
-            Console.WriteLine("This programm uses the following sounds from Freesound.org:\n\n" +
+            Console.WriteLine("This programm uses the following sounds from https://freesound.org:\n\n" +
                 "Content Under 'Creative Commons 0 License':\n" +
                 "Countdown To Fight by Nakamurasensei | https://freesound.org/people/Nakamurasensei/sounds/472853/ \n" +
                 "Game_Over_01 by MATRIXXX_ | https://freesound.org/people/MATRIXXX_/sounds/345666/ \n\n" +
                 "Content Under 'Attribution Noncommercial License':\n" +
-                "Dramatic Scroller by FoolBoyMedia | https://freesound.org/people/FoolBoyMedia/sounds/270366/ \n" +
+                "Dramatic Scroller by FoolBoyMedia | https://freesound.org/people/FoolBoyMedia/sounds/270366/ \n\n" +
+                "ASCII Text Art from | https://patorjk.com/software/taag/#p=display&f=ANSI%20Shadow&t=Type%20Something%20 \n" +
                 "-----------------------------------------------------------------------------------");
         }
 
