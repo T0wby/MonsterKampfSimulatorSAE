@@ -4,14 +4,16 @@ using System.Text;
 
 namespace Monsterkampfsimulator
 {
-    class Monster
+    abstract class Monster
     {
-        private float lifepoints;
-        private float attackpower;
-        private float defensepoints;
-        private float speed;
-        private bool bChosen = false;
-        private bool bStartFight = false;
+        protected float lifepoints;
+        protected float attackpower;
+        protected float defensepoints;
+        protected float speed;
+        protected float number;
+        protected string name;
+        protected bool bChosen = false;
+        protected bool bStartFight = false;
 
         /** Properties **/
         public float Lifepoints
@@ -33,6 +35,16 @@ namespace Monsterkampfsimulator
         {
             get { return this.speed; }
             set { this.speed = value; }
+        }
+
+        public float Number
+        {
+            get { return this.number; }
+        }
+
+        public string Name
+        {
+            get { return this.name; }
         }
 
         public bool Chosen

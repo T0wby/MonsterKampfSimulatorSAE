@@ -8,18 +8,18 @@ namespace Monsterkampfsimulator
 {
     class Sound
     {
-        public SoundPlayer punchOnePlayer;
-        public SoundPlayer punchTwoPlayer;
-        public SoundPlayer punchThreePlayer;
-        public SoundPlayer punchFourPlayer;
-        public SoundPlayer punchFivePlayer;
-        public SoundPlayer punchSixPlayer;
-        public SoundPlayer punchSevenPlayer;
-        public SoundPlayer punchEightPlayer;
-        public SoundPlayer MenuStartSound;
-        public SoundPlayer FightStartSound;
-        public SoundPlayer FightEndSound;
-        public SoundPlayer[] allPunches;
+        public SoundPlayer? punchOnePlayer;
+        public SoundPlayer? punchTwoPlayer;
+        public SoundPlayer? punchThreePlayer;
+        public SoundPlayer? punchFourPlayer;
+        public SoundPlayer? punchFivePlayer;
+        public SoundPlayer? punchSixPlayer;
+        public SoundPlayer? punchSevenPlayer;
+        public SoundPlayer? punchEightPlayer;
+        public SoundPlayer? MenuStartSound;
+        public SoundPlayer? FightStartSound;
+        public SoundPlayer? FightEndSound;
+        public SoundPlayer[]? allPunches;
 
         /** Build all sounds used during the game **/
         public void BuildSound()
@@ -48,7 +48,7 @@ namespace Monsterkampfsimulator
         public void PlayRandomAttackSound()
         {
             Random rnd = new Random((DateTime.Now.Second * DateTime.Now.Millisecond + DateTime.Now.Hour));
-            int rndNumber = rnd.Next(1, 8);
+            int rndNumber = rnd.Next(0, 7);
 
             allPunches[rndNumber].Load();
             allPunches[rndNumber].Play();

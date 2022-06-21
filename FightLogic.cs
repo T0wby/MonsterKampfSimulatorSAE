@@ -8,52 +8,68 @@ namespace Monsterkampfsimulator
     class FightLogic
     {
         // Strings used for the user input
-        string race1;
-        string race2;
+        private string? race1;
+        private string? race2;
 
         // Int used to keep track of how many rounds our fighters fought
-        int rounds = 0;
+        private int rounds = 0;
         // Int used to switch between who of the fighters attack in the given round
-        int whoAttacks = 0;
+        private int whoAttacks = 0;
         // Used to delay each round in our fight
-        int waitTime = 500;
+        private int waitTime = 500;
         // Used to check that the user entered a valid input when asking for the 2 fighters
-        bool bNotMatching;
+        private bool bNotMatching;
 
         // Attributes for fighter 1
-        float lifepointsOne = 0f; 
-        float attackpowerOne = 0f; 
-        float defensepointsOne = 0f; 
-        float speedOne = 0f;
+        private float lifepointsOne = 0f;
+        private float attackpowerOne = 0f;
+        private float defensepointsOne = 0f;
+        private float speedOne = 0f;
 
         // Attributes for fighter 2
-        float lifepointsTwo = 0f;
-        float attackpowerTwo = 0f;
-        float defensepointsTwo = 0f;
-        float speedTwo = 0f;
+        private float lifepointsTwo = 0f;
+        private float attackpowerTwo = 0f;
+        private float defensepointsTwo = 0f;
+        private float speedTwo = 0f;
 
-        Ork Ork = new Ork();
-        Troll Troll = new Troll();
-        Goblin Goblin = new Goblin();
+        private Ork ork = new Ork(1, "Ork");
+        private Troll troll = new Troll(2, "Troll");
+        private Goblin goblin = new Goblin(3, "Goblin");
+
+        private List<Monster> allAvailableFighters = new List<Monster>();
+        private List<Monster> chosenFighters = new List<Monster>();
+
         Sound sound = new Sound();
         Messages message = new Messages();
-
 
         /** Get methode for race1 **/
         public string FighterOne
         {
-            get { return race1; }
+            get { return chosenFighters[0].Name; }
         }
 
         /** Get methode for race2 **/
         public string FighterTwo
         {
-            get { return race2; }
+            get { return chosenFighters[1].Name; }
+        }
+
+        public List<Monster> ChosenFighters
+        {
+            get { return chosenFighters; }
         }
 
         /** Asking user for the first fighter **/
         public void GetFighterOneInput()
         {
+            allAvailableFighters.Add(ork);
+            allAvailableFighters.Add(troll);
+            allAvailableFighters.Add(goblin);
+
+            message.PrintConsoleMessageColor("Who will be our first Fighter?\n\n");
+
+            message.DisplayAllAvailableFighters(allAvailableFighters);
+
             // Doing a do-while loop in order to redo the action until we have a valid input
             do
             {
@@ -63,23 +79,26 @@ namespace Monsterkampfsimulator
                 {
                     case "1":
                     case "ork":
-                        if(race1.ToLower() == "1")
+                        if (race1.ToLower() == "1")
                             race1 = "Ork";
-                        Ork.Chosen = true;
+                        ork.Chosen = true;
+                        chosenFighters.Add(ork);
                         bNotMatching = false;
                         break;
                     case "2":
                     case "troll":
                         if (race1.ToLower() == "2")
                             race1 = "Troll";
-                        Troll.Chosen = true;
+                        troll.Chosen = true;
+                        chosenFighters.Add(troll);
                         bNotMatching = false;
                         break;
                     case "3":
                     case "goblin":
                         if (race1.ToLower() == "3")
                             race1 = "Goblin";
-                        Goblin.Chosen = true;
+                        goblin.Chosen = true;
+                        chosenFighters.Add(goblin);
                         bNotMatching = false;
                         break;
                     default:
@@ -88,6 +107,15 @@ namespace Monsterkampfsimulator
                         break;
                 }
             } while (bNotMatching);
+
+            for (int i = 0; i < allAvailableFighters.Count; i++)
+            {
+                if (race1.ToLower() == allAvailableFighters[i].Name.ToLower())
+                {
+                    allAvailableFighters.RemoveAt(i);
+                }
+            }
+            Console.WriteLine("race1: " + race1);
         }
 
         /** Asking user for the second fighter **/
@@ -95,190 +123,54 @@ namespace Monsterkampfsimulator
         {
             do
             {
-                message.PrintConsoleMessageColor(@"
-██     ██ ██   ██  ██████      ██ ███████     ██    ██  ██████  ██    ██ ██████           
-██     ██ ██   ██ ██    ██     ██ ██           ██  ██  ██    ██ ██    ██ ██   ██          
-██  █  ██ ███████ ██    ██     ██ ███████       ████   ██    ██ ██    ██ ██████           
-██ ███ ██ ██   ██ ██    ██     ██      ██        ██    ██    ██ ██    ██ ██   ██          
- ███ ███  ██   ██  ██████      ██ ███████        ██     ██████   ██████  ██   ██          
-                                                                                          
-                                                                                          
-███████ ███████  ██████  ██████  ███    ██ ██████      ██████  ██  ██████ ██   ██ ██████  
-██      ██      ██      ██    ██ ████   ██ ██   ██     ██   ██ ██ ██      ██  ██       ██ 
-███████ █████   ██      ██    ██ ██ ██  ██ ██   ██     ██████  ██ ██      █████     ▄███  
-     ██ ██      ██      ██    ██ ██  ██ ██ ██   ██     ██      ██ ██      ██  ██    ▀▀    
-███████ ███████  ██████  ██████  ██   ████ ██████      ██      ██  ██████ ██   ██   ██");
 
-                if (Ork.Chosen)
+                message.PrintConsoleMessageColor("Who will be the 2nd Fighter?\n\n");
+
+                message.DisplayAllAvailableFighters(allAvailableFighters);
+
+                race2 = message.UserInputMessage();
+
+                // We check if the user selected the same race again and print a message if he did so. Otherwise we use a 2nd switch statement to create the 2nd fighter object.
+                if (race2.ToLower() == chosenFighters[0].Name.ToLower() || race2.ToLower() == chosenFighters[0].Number.ToString())
                 {
-                    message.PrintTrollMessageColor(@"
- ██╗       ████████╗██████╗  ██████╗ ██╗     ██╗     
-███║       ╚══██╔══╝██╔══██╗██╔═══██╗██║     ██║     
-╚██║          ██║   ██████╔╝██║   ██║██║     ██║     
- ██║          ██║   ██╔══██╗██║   ██║██║     ██║     
- ██║██╗       ██║   ██║  ██║╚██████╔╝███████╗███████╗
- ╚═╝╚═╝       ╚═╝   ╚═╝  ╚═╝ ╚═════╝ ╚══════╝╚══════╝");
-                    message.PrintConsoleMessageColor(@"
- ██████ ██████  
-██    ████   ██ 
-██    ████████  
-██    ████   ██ 
- ██████ ██   ██ ");
-                    message.PrintGoblinMessageColor(@"
-██████╗         ██████╗  ██████╗ ██████╗ ██╗     ██╗███╗   ██╗
-╚════██╗       ██╔════╝ ██╔═══██╗██╔══██╗██║     ██║████╗  ██║
- █████╔╝       ██║  ███╗██║   ██║██████╔╝██║     ██║██╔██╗ ██║
-██╔═══╝        ██║   ██║██║   ██║██╔══██╗██║     ██║██║╚██╗██║
-███████╗██╗    ╚██████╔╝╚██████╔╝██████╔╝███████╗██║██║ ╚████║
-╚══════╝╚═╝     ╚═════╝  ╚═════╝ ╚═════╝ ╚══════╝╚═╝╚═╝  ╚═══╝");
-
-                    race2 = message.UserInputMessage();
-
-                    // We check if the user selected the same race again and print a message if he did so. Otherwise we use a 2nd switch statement to create the 2nd fighter object.
-                    if (race1.ToLower() == race2.ToLower())
-                    {
-                        message.PrintErrorColor($"{race1} was already chosen as the first fighter! Please chose one of the other two that are available\n----------------");
-                        bNotMatching = true;
-                    }
-                    else
-                    {
-                        switch (race2.ToLower())
-                        {
-                            case "1":
-                            case "troll":
-                                if (race2.ToLower() == "1")
-                                    race2 = "Troll";
-                                Troll.Chosen = true;
-                                bNotMatching = false;
-                                break;
-                            case "2":
-                            case "goblin":
-                                if (race2.ToLower() == "2")
-                                    race2 = "Goblin";
-                                Goblin.Chosen = true;
-                                bNotMatching = false;
-                                break;
-                            default:
-                                bNotMatching = true;
-                                message.PrintErrorColor("Please make sure that you write the fighters names correctly!\n");
-                                break;
-                        }
-                    }
-                }
-                else if (Troll.Chosen)
-                {
-                    message.PrintOrkMessageColor(@"
- ██╗        ██████╗ ██████╗ ██╗  ██╗
-███║       ██╔═══██╗██╔══██╗██║ ██╔╝
-╚██║       ██║   ██║██████╔╝█████╔╝ 
- ██║       ██║   ██║██╔══██╗██╔═██╗ 
- ██║██╗    ╚██████╔╝██║  ██║██║  ██╗
- ╚═╝╚═╝     ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝");
-                    message.PrintConsoleMessageColor(@"
- ██████ ██████  
-██    ████   ██ 
-██    ████████  
-██    ████   ██ 
- ██████ ██   ██ ");
-                    message.PrintGoblinMessageColor(@"
-██████╗         ██████╗  ██████╗ ██████╗ ██╗     ██╗███╗   ██╗
-╚════██╗       ██╔════╝ ██╔═══██╗██╔══██╗██║     ██║████╗  ██║
- █████╔╝       ██║  ███╗██║   ██║██████╔╝██║     ██║██╔██╗ ██║
-██╔═══╝        ██║   ██║██║   ██║██╔══██╗██║     ██║██║╚██╗██║
-███████╗██╗    ╚██████╔╝╚██████╔╝██████╔╝███████╗██║██║ ╚████║
-╚══════╝╚═╝     ╚═════╝  ╚═════╝ ╚═════╝ ╚══════╝╚═╝╚═╝  ╚═══╝");
-
-                    race2 = message.UserInputMessage();
-
-                    // We check if the user selected the same race again and print a message if he did so. Otherwise we use a 2nd switch statement to create the 2nd fighter object.
-                    if (race1.ToLower() == race2.ToLower())
-                    {
-                        message.PrintErrorColor($"{race1} was already chosen as the first fighter! Please chose one of the other two that are available\n----------------");
-                        bNotMatching = true;
-                    }
-                    else
-                    {
-                        switch (race2.ToLower())
-                        {
-                            case "1":
-                            case "ork":
-                                if (race2.ToLower() == "1")
-                                    race2 = "Ork";
-                                Ork.Chosen = true;
-                                bNotMatching = false;
-                                break;
-                            case "2":
-                            case "goblin":
-                                if (race2.ToLower() == "2")
-                                    race2 = "Goblin";
-                                Goblin.Chosen = true;
-                                bNotMatching = false;
-                                break;
-                            default:
-                                bNotMatching = true;
-                                message.PrintErrorColor("Please make sure that you write the fighters names correctly!\n");
-                                break;
-                        }
-                    }
+                    message.PrintErrorColor($"{race1} was already chosen as the first fighter! Please chose one of the other two that are available\n----------------");
+                    bNotMatching = true;
                 }
                 else
                 {
-                    message.PrintOrkMessageColor(@"
- ██╗        ██████╗ ██████╗ ██╗  ██╗
-███║       ██╔═══██╗██╔══██╗██║ ██╔╝
-╚██║       ██║   ██║██████╔╝█████╔╝ 
- ██║       ██║   ██║██╔══██╗██╔═██╗ 
- ██║██╗    ╚██████╔╝██║  ██║██║  ██╗
- ╚═╝╚═╝     ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝");
-                    message.PrintConsoleMessageColor(@"
- ██████ ██████  
-██    ████   ██ 
-██    ████████  
-██    ████   ██ 
- ██████ ██   ██ ");
-                    message.PrintTrollMessageColor(@"
-██████╗        ████████╗██████╗  ██████╗ ██╗     ██╗     
-╚════██╗       ╚══██╔══╝██╔══██╗██╔═══██╗██║     ██║     
- █████╔╝          ██║   ██████╔╝██║   ██║██║     ██║     
-██╔═══╝           ██║   ██╔══██╗██║   ██║██║     ██║     
-███████╗██╗       ██║   ██║  ██║╚██████╔╝███████╗███████╗
-╚══════╝╚═╝       ╚═╝   ╚═╝  ╚═╝ ╚═════╝ ╚══════╝╚══════╝");
-
-                    race2 = message.UserInputMessage();
-
-                    // We check if the user selected the same race again and print a message if he did so. Otherwise we use a 2nd switch statement to create the 2nd fighter object.
-                    if (race1.ToLower() == race2.ToLower())
+                    switch (race2.ToLower())
                     {
-                        message.PrintErrorColor($"{race1} was already chosen as the first fighter! Please chose one of the other two that are available\n----------------");
-                        bNotMatching = true;
-                    }
-                    else
-                    {
-                        switch (race2.ToLower())
-                        {
-                            case "1":
-                            case "ork":
-                                if (race2.ToLower() == "1")
-                                    race2 = "Ork";
-                                Ork.Chosen = true;
-                                bNotMatching = false;
-                                break;
-                            case "2":
-                            case "troll":
-                                if (race2.ToLower() == "2")
-                                    race2 = "Troll";
-                                Troll.Chosen = true;
-                                bNotMatching = false;
-                                break;
-                            default:
-                                bNotMatching = true;
-                                message.PrintErrorColor("Please make sure that you write the fighters names correctly!\n");
-                                break;
-                        }
+                        case "1":
+                        case "ork":
+                            if (race2.ToLower() == "1")
+                                race1 = "Ork";
+                            ork.Chosen = true;
+                            chosenFighters.Add(ork);
+                            bNotMatching = false;
+                            break;
+                        case "2":
+                        case "troll":
+                            if (race2.ToLower() == "2")
+                                race1 = "Troll";
+                            troll.Chosen = true;
+                            chosenFighters.Add(troll);
+                            bNotMatching = false;
+                            break;
+                        case "3":
+                        case "goblin":
+                            if (race2.ToLower() == "3")
+                                race1 = "Goblin";
+                            goblin.Chosen = true;
+                            chosenFighters.Add(goblin);
+                            bNotMatching = false;
+                            break;
+                        default:
+                            bNotMatching = true;
+                            message.PrintErrorColor("Please make sure that you write the fighters names correctly!\n");
+                            break;
                     }
                 }
 
-                
             } while (bNotMatching);
         }
 
@@ -292,7 +184,7 @@ namespace Monsterkampfsimulator
             do
             {
                 // Asking for the Health value
-                message.PrintConsoleMessageColor($"Please give the {race1} a positive Health value:");
+                message.PrintConsoleMessageColor($"Please give the {chosenFighters[0].Name} a positive Health value:");
 
                 Console.ForegroundColor = message.green;
                 // Due to Console.ReadLine() returning a string value we parse it into the required float value with float.TryParse() and also check if any other value than a numeric one was used
@@ -310,20 +202,7 @@ namespace Monsterkampfsimulator
                 if (lifepointsOne > 0)
                 {
                     bNegativeValue = false;
-                    switch (race1.ToLower())
-                    {
-                        case "ork":
-                            Ork.Lifepoints = lifepointsOne;
-                            break;
-                        case "troll":
-                            Troll.Lifepoints = lifepointsOne;
-                            break;
-                        case "goblin":
-                            Goblin.Lifepoints = lifepointsOne;
-                            break;
-                        default:
-                            break;
-                    }
+                    chosenFighters[0].Lifepoints = lifepointsOne;
                 }
                 else
                 {
@@ -335,7 +214,7 @@ namespace Monsterkampfsimulator
             do
             {
                 // Asking for the Attackpower value
-                message.PrintConsoleMessageColor($"Please give the {race1} a positive Attackpower value:");
+                message.PrintConsoleMessageColor($"Please give the {chosenFighters[0].Name} a positive Attackpower value:");
                 Console.ForegroundColor = message.green;
                 // Due to Console.ReadLine() returning a string value we parse it into the required float value with float.TryParse() and also check if any other value than a numeric one was used
                 if (float.TryParse(Console.ReadLine(), out result))
@@ -351,20 +230,7 @@ namespace Monsterkampfsimulator
                 if (attackpowerOne > 0)
                 {
                     bNegativeValue = false;
-                    switch (race1.ToLower())
-                    {
-                        case "ork":
-                            Ork.Attackpower = attackpowerOne;
-                            break;
-                        case "troll":
-                            Troll.Attackpower = attackpowerOne;
-                            break;
-                        case "goblin":
-                            Goblin.Attackpower = attackpowerOne;
-                            break;
-                        default:
-                            break;
-                    }
+                    chosenFighters[0].Attackpower = attackpowerOne;
                 }
                 else
                 {
@@ -376,7 +242,7 @@ namespace Monsterkampfsimulator
             do
             {
                 // Asking for the Defensepoint value
-                message.PrintConsoleMessageColor($"Please give the {race1} a positive Defensepoint value:");
+                message.PrintConsoleMessageColor($"Please give the {chosenFighters[0].Name} a positive Defensepoint value:");
                 Console.ForegroundColor = message.green;
                 // Due to Console.ReadLine() returning a string value we parse it into the required float value with float.TryParse() and also check if any other value than a numeric one was used
                 if (float.TryParse(Console.ReadLine(), out result))
@@ -392,20 +258,7 @@ namespace Monsterkampfsimulator
                 if (defensepointsOne > 0)
                 {
                     bNegativeValue = false;
-                    switch (race1.ToLower())
-                    {
-                        case "ork":
-                            Ork.Defensepoints = defensepointsOne;
-                            break;
-                        case "troll":
-                            Troll.Defensepoints = defensepointsOne;
-                            break;
-                        case "goblin":
-                            Goblin.Defensepoints = defensepointsOne;
-                            break;
-                        default:
-                            break;
-                    }
+                    chosenFighters[0].Defensepoints = defensepointsOne;
                 }
                 else
                 {
@@ -417,7 +270,7 @@ namespace Monsterkampfsimulator
             do
             {
                 // Asking for the Speed value
-                message.PrintConsoleMessageColor($"Please give the {race1} a positive Speed value:");
+                message.PrintConsoleMessageColor($"Please give the {chosenFighters[0].Name} a positive Speed value:");
                 Console.ForegroundColor = message.green;
                 // Due to Console.ReadLine() returning a string value we parse it into the required float value with float.TryParse() and also check if any other value than a numeric one was used
                 if (float.TryParse(Console.ReadLine(), out result))
@@ -433,20 +286,7 @@ namespace Monsterkampfsimulator
                 if (speedOne > 0)
                 {
                     bNegativeValue = false;
-                    switch (race1.ToLower())
-                    {
-                        case "ork":
-                            Ork.Speed = speedOne;
-                            break;
-                        case "troll":
-                            Troll.Speed = speedOne;
-                            break;
-                        case "goblin":
-                            Goblin.Speed = speedOne;
-                            break;
-                        default:
-                            break;
-                    }
+                    chosenFighters[0].Speed = speedOne;
                 }
                 else
                 {
@@ -455,23 +295,6 @@ namespace Monsterkampfsimulator
                 }
             } while (bNegativeValue);
 
-        }
-
-        /** Setting sp1 to later use it in GetFighterTwoStats() for speed comparison **/
-        public void SettingCompareSpeed()
-        {
-            if (Ork.Chosen)
-            {
-                speedOne = Ork.Speed;
-            }
-            else if (Goblin.Chosen)
-            {
-                speedOne = Goblin.Speed;
-            }
-            else
-            {
-                speedOne = Troll.Speed;
-            }
         }
 
         /** Function to collect the stats of the 2nd fighter **/
@@ -484,7 +307,7 @@ namespace Monsterkampfsimulator
             do
             {
                 // Asking for the Health value
-                message.PrintConsoleMessageColor($"Please give the {race2} a positive Health value:");
+                message.PrintConsoleMessageColor($"Please give the {chosenFighters[1].Name} a positive Health value:");
                 Console.ForegroundColor = message.green;
                 // Due to Console.ReadLine() returning a string value we parse it into the required float value with float.TryParse() and also check if any other value than a numeric one was used
                 if (float.TryParse(Console.ReadLine(), out result))
@@ -500,20 +323,7 @@ namespace Monsterkampfsimulator
                 if (lifepointsTwo > 0)
                 {
                     bNegativeValue = false;
-                    switch (race2.ToLower())
-                    {
-                        case "ork":
-                            Ork.Lifepoints = lifepointsTwo;
-                            break;
-                        case "troll":
-                            Troll.Lifepoints = lifepointsTwo;
-                            break;
-                        case "goblin":
-                            Goblin.Lifepoints = lifepointsTwo;
-                            break;
-                        default:
-                            break;
-                    }
+                    chosenFighters[1].Lifepoints = lifepointsTwo;
                 }
                 else
                 {
@@ -525,7 +335,7 @@ namespace Monsterkampfsimulator
             do
             {
                 // Asking for the Attackpower value
-                message.PrintConsoleMessageColor($"Please give the {race2} a positive Attackpower value:");
+                message.PrintConsoleMessageColor($"Please give the {chosenFighters[1].Name} a positive Attackpower value:");
                 Console.ForegroundColor = message.green;
                 // Due to Console.ReadLine() returning a string value we parse it into the required float value with float.TryParse() and also check if any other value than a numeric one was used
                 if (float.TryParse(Console.ReadLine(), out result))
@@ -541,20 +351,7 @@ namespace Monsterkampfsimulator
                 if (attackpowerTwo > 0)
                 {
                     bNegativeValue = false;
-                    switch (race2.ToLower())
-                    {
-                        case "ork":
-                            Ork.Attackpower = attackpowerTwo;
-                            break;
-                        case "troll":
-                            Troll.Attackpower = attackpowerTwo;
-                            break;
-                        case "goblin":
-                            Goblin.Attackpower = attackpowerTwo;
-                            break;
-                        default:
-                            break;
-                    }
+                    chosenFighters[1].Attackpower = attackpowerTwo;
                 }
                 else
                 {
@@ -566,7 +363,7 @@ namespace Monsterkampfsimulator
             do
             {
                 // Asking for the Defensepoint value
-                message.PrintConsoleMessageColor($"Please give the {race2} a positive Defensepoint value:");
+                message.PrintConsoleMessageColor($"Please give the {chosenFighters[1].Name} a positive Defensepoint value:");
                 Console.ForegroundColor = message.green;
                 // Due to Console.ReadLine() returning a string value we parse it into the required float value with float.TryParse() and also check if any other value than a numeric one was used
                 if (float.TryParse(Console.ReadLine(), out result))
@@ -582,20 +379,7 @@ namespace Monsterkampfsimulator
                 if (defensepointsTwo > 0)
                 {
                     bNegativeValue = false;
-                    switch (race2.ToLower())
-                    {
-                        case "ork":
-                            Ork.Defensepoints = defensepointsTwo;
-                            break;
-                        case "troll":
-                            Troll.Defensepoints = defensepointsTwo;
-                            break;
-                        case "goblin":
-                            Goblin.Defensepoints = defensepointsTwo;
-                            break;
-                        default:
-                            break;
-                    }
+                    chosenFighters[1].Defensepoints = defensepointsTwo;
                 }
                 else
                 {
@@ -607,7 +391,7 @@ namespace Monsterkampfsimulator
             do
             {
                 // Asking for the Speed value
-                message.PrintConsoleMessageColor($"Please give the {race2} a positive Speed value:");
+                message.PrintConsoleMessageColor($"Please give the {chosenFighters[1].Name} a positive Speed value:");
                 Console.ForegroundColor = message.green;
                 // Due to Console.ReadLine() returning a string value we parse it into the required float value with float.TryParse() and also check if any other value than a numeric one was used
                 if (float.TryParse(Console.ReadLine(), out result))
@@ -623,20 +407,7 @@ namespace Monsterkampfsimulator
                 if (speedTwo > 0 && speedTwo != speedOne)
                 {
                     bNegativeValue = false;
-                    switch (race2.ToLower())
-                    {
-                        case "ork":
-                            Ork.Speed = speedTwo;
-                            break;
-                        case "troll":
-                            Troll.Speed = speedTwo;
-                            break;
-                        case "goblin":
-                            Goblin.Speed = speedTwo;
-                            break;
-                        default:
-                            break;
-                    }
+                    chosenFighters[1].Speed = speedTwo;
                 }
                 else
                 {
@@ -646,503 +417,88 @@ namespace Monsterkampfsimulator
             } while (bNegativeValue);
         }
 
-        /** Show the attributes of the first fighter before we enter the attributes of the 2nd one **/
-        public void ShowStatsFighterOne()
-        {
-            if (race1.ToLower() == "ork")
-            {
-                message.PrintConsoleMessageColor($@"
-|                 |  Ork
-|-----------------| -------
-| Healthpoints:   | {Ork.Lifepoints}
-| Attackpower:    | {Ork.Attackpower}
-| Defensepoints:  | {Ork.Defensepoints}
-| Speed:          | {Ork.Speed}");
-            }
-            else if (race1.ToLower() == "goblin")
-            {
-                message.PrintConsoleMessageColor($@"
-|                 |  Goblin
-|-----------------| -------
-| Healthpoints:   | {Goblin.Lifepoints}
-| Attackpower:    | {Goblin.Attackpower}
-| Defensepoints:  | {Goblin.Defensepoints}
-| Speed:          | {Goblin.Speed}");
-            }
-            else
-            {
-                message.PrintConsoleMessageColor($@"
-|                 |  Troll
-|-----------------| -------
-| Healthpoints:   | {Troll.Lifepoints}
-| Attackpower:    | {Troll.Attackpower}
-| Defensepoints:  | {Troll.Defensepoints}
-| Speed:          | {Troll.Speed}");
-            }
-        }
-        
-        /** Show the attributes of both fighters **/
-        public void ShowStatsBothFighters()
-        {
-            if (Ork.Chosen && Troll.Chosen)
-            {
-                message.PrintConsoleMessageColor($@"
-|                 |  Ork
-|-----------------| -------
-| Healthpoints:   | {Ork.Lifepoints}
-| Attackpower:    | {Ork.Attackpower}
-| Defensepoints:  | {Ork.Defensepoints}
-| Speed:          | {Ork.Speed}
------------------------------
-|                 | Troll
-|-----------------| -------
-| Healthpoints:   | {Troll.Lifepoints}
-| Attackpower:    | {Troll.Attackpower}
-| Defensepoints:  | {Troll.Defensepoints}
-| Speed:          | {Troll.Speed}");
-            }
-            else if (Ork.Chosen && Goblin.Chosen)
-            {
-                message.PrintConsoleMessageColor($@"
-|                 |  Ork
-|-----------------| -------
-| Healthpoints:   | {Ork.Lifepoints}
-| Attackpower:    | {Ork.Attackpower}
-| Defensepoints:  | {Ork.Defensepoints}
-| Speed:          | {Ork.Speed}
------------------------------
-|                 | Goblin
-|-----------------| -------
-| Healthpoints:   | {Goblin.Lifepoints}
-| Attackpower:    | {Goblin.Attackpower}
-| Defensepoints:  | {Goblin.Defensepoints}
-| Speed:          | {Goblin.Speed}");
-            }
-            else if (Goblin.Chosen && Troll.Chosen)
-            {
-                message.PrintConsoleMessageColor($@"
-|                 |  Troll
-|-----------------| -------
-| Healthpoints:   | {Troll.Lifepoints}
-| Attackpower:    | {Troll.Attackpower}
-| Defensepoints:  | {Troll.Defensepoints}
-| Speed:          | {Troll.Speed}
------------------------------
-|                 | Goblin
-|-----------------| -------
-| Healthpoints:   | {Goblin.Lifepoints}
-| Attackpower:    | {Goblin.Attackpower}
-| Defensepoints:  | {Goblin.Defensepoints}
-| Speed:          | {Goblin.Speed}");
-            }
-        }
-
         /** Comparing speeds and setting the start boolean for the fight **/
         public void WhoStartsFight()
         {
-            if (Ork.Chosen && Troll.Chosen)
+            if (chosenFighters[0].Speed > chosenFighters[1].Speed)
             {
-                if (Ork.Speed > Troll.Speed)
-                {
-                    Ork.StartFight = true;
-                }
-                else if (Ork.Speed < Troll.Speed)
-                {
-                    Troll.StartFight = true;
-                }
-            }
-            else if (Ork.Chosen && Goblin.Chosen)
-            {
-                if (Ork.Speed > Goblin.Speed)
-                {
-                    Ork.StartFight = true;
-                }
-                else if (Ork.Speed < Goblin.Speed)
-                {
-                    Goblin.StartFight = true;
-                }
+
+                chosenFighters[0].StartFight = true;
             }
             else
             {
-                if (Troll.Speed > Goblin.Speed)
-                {
-                    Troll.StartFight = true;
-                }
-                else if (Troll.Speed < Goblin.Speed)
-                {
-                    Goblin.StartFight = true;
-                }
+                chosenFighters[1].StartFight = true;
             }
         }
 
-        /** Starting the fight and ending it **/
+        /** Starting the fight and ending it when either fighter has no health left or the fight took more than 100 rounds **/
         public void StartFight()
         {
-            if (Ork.Chosen && Troll.Chosen)
+
+            if (chosenFighters[0].StartFight)
             {
-                if (Ork.StartFight)
+                // The fight goes on until one of the fighters has 0 or less Lifepoints or we reached 100 rounds in total
+                while (chosenFighters[0].Lifepoints > 0 && chosenFighters[1].Lifepoints > 0 && rounds < 100)
                 {
-                    // The fight goes on until one of the fighters has 0 or less Lifepoints or we reached 100 rounds in total
-                    while (Ork.Lifepoints > 0 && Troll.Lifepoints > 0 && rounds < 100)
+                    // For each iteration of the while loop we add 1 to the variable rounds in order to use it in Console.WriteLine statements and to stop a potential endless loop
+                    rounds++;
+                    switch (whoAttacks)
                     {
-                        // For each iteration of the while loop we add 1 to the variable rounds in order to use it in Console.WriteLine statements and to stop a potential endless loop
-                        rounds++;
-                        switch (whoAttacks)
-                        {
-                            case 0:
-                                Ork.Attack(Troll);
-                                whoAttacks += 1;
-                                sound.PlayRandomAttackSound();
-                                message.PrintConsoleMessageColor($"Round {rounds}:");
-                                message.PrintOrkMessageColor("The Ork attacks!!");
-                                message.PrintConsoleMessageColor($"The Ork's life: {Ork.Lifepoints}\nThe Troll's life: {Troll.Lifepoints}\n--------------------\n");
-                                break;
-                            case 1:
-                                Troll.Attack(Ork);
-                                whoAttacks -= 1;
-                                sound.PlayRandomAttackSound();
-                                message.PrintConsoleMessageColor($"Round {rounds}:");
-                                message.PrintTrollMessageColor("The Troll attacks!!");
-                                message.PrintConsoleMessageColor($"The Ork's life: {Ork.Lifepoints}\nThe Troll's life: {Troll.Lifepoints}\n--------------------\n");
-                                break;
-                            default:
-                                break;
-                        }
-                        Thread.Sleep(waitTime);
+                        case 0:
+                            chosenFighters[0].Attack(chosenFighters[1]);
+                            whoAttacks += 1;
+                            //sound.PlayRandomAttackSound();
+                            message.PrintConsoleMessageColor($"Round {rounds}:");
+                            message.PrintOrkMessageColor($"The {chosenFighters[0].Name} attacks!!");
+                            message.PrintConsoleMessageColor($"The {chosenFighters[0].Name}'s life: {chosenFighters[0].Lifepoints}\nThe {chosenFighters[1].Name}'s life: {chosenFighters[1].Lifepoints}\n--------------------\n");
+                            break;
+                        case 1:
+                            chosenFighters[1].Attack(chosenFighters[0]);
+                            whoAttacks -= 1;
+                            //sound.PlayRandomAttackSound();
+                            message.PrintConsoleMessageColor($"Round {rounds}:");
+                            message.PrintTrollMessageColor($"The {chosenFighters[1].Name} attacks!!");
+                            message.PrintConsoleMessageColor($"The {chosenFighters[0].Name}'s life: {chosenFighters[0].Lifepoints}\nThe {chosenFighters[1].Name}'s life: {chosenFighters[1].Lifepoints}\n--------------------\n");
+                            break;
+                        default:
+                            break;
                     }
-
-                    message.FightEndMessage();
-
-                    if (Ork.Lifepoints <= 0)
-                    {
-                        message.PrintConsoleMessageColor($"The fight between the Ork and Troll ended and our champion in todays fight is the Troll.\n" +
-                            $"The fight took {rounds} rounds and ended with the following healthpoints:\n\n" +
-                            $@"
-|------------------------| ---------
-| Ork Healthpoints:      | { Ork.Lifepoints}
-| Troll Healthpoints:    | { Troll.Lifepoints}");
-                    }
-                    else if (Troll.Lifepoints <= 0)
-                    {
-                        message.PrintConsoleMessageColor($"The fight between the Ork and Troll ended and our champion in todays fight is the Ork.\n" +
-                            $"The fight took {rounds} rounds and ended with the following healthpoints:\n\n" +
-                            $@"
-|------------------------| ---------
-| Ork Healthpoints:      | { Ork.Lifepoints}
-| Troll Healthpoints:    | { Troll.Lifepoints}");
-                    }
-                    else if (rounds >= 100)
-                    {
-                        message.PrintConsoleMessageColor($"The fight between the Ork and Troll took to long and ended in a draw.\n" +
-                            $"The fight took {rounds} rounds and ended with the following healthpoints:\n\n" +
-                            $@"
-|------------------------| ---------
-| Ork Healthpoints:      | { Ork.Lifepoints}
-| Troll Healthpoints:    | { Troll.Lifepoints}");
-                    }
-
+                    Thread.Sleep(waitTime);
                 }
-                else if (Troll.StartFight)
-                {
-                    while (Ork.Lifepoints > 0 && Troll.Lifepoints > 0 && rounds < 100)
-                    {
-                        rounds++;
-                        switch (whoAttacks)
-                        {
-                            case 0:
-                                Troll.Attack(Ork);
-                                whoAttacks += 1;
-                                sound.PlayRandomAttackSound();
-                                message.PrintConsoleMessageColor($"Round {rounds}:");
-                                message.PrintTrollMessageColor("The Troll attacks!!");
-                                message.PrintConsoleMessageColor($"The Ork's life: {Ork.Lifepoints}\nThe Troll's life: {Troll.Lifepoints}\n--------------------\n");
-                                break;
-                            case 1:
-                                Ork.Attack(Troll);
-                                whoAttacks -= 1;
-                                sound.PlayRandomAttackSound();
-                                message.PrintConsoleMessageColor($"Round {rounds}:");
-                                message.PrintOrkMessageColor("The Ork attacks!!");
-                                message.PrintConsoleMessageColor($"The Ork's life: {Ork.Lifepoints}\nThe Troll's life: {Troll.Lifepoints}\n--------------------\n");
-                                break;
-                            default:
-                                break;
-                        }
-                        Thread.Sleep(waitTime);
-                    }
 
-                    message.FightEndMessage();
+                message.FightEndMessage(chosenFighters[0], chosenFighters[1], rounds);
 
-                    if (Ork.Lifepoints <= 0)
-                    {
-                        message.PrintConsoleMessageColor($"The fight between the Ork and Troll ended and our champion in todays fight is the Troll.\n" +
-                            $"The fight took {rounds} rounds and ended with the following healthpoints:\n\n" +
-                            $@"
-|------------------------| ---------
-| Ork Healthpoints:      | { Ork.Lifepoints}
-| Troll Healthpoints:    | { Troll.Lifepoints}");
-                    }
-                    else if (Troll.Lifepoints <= 0)
-                    {
-                        message.PrintConsoleMessageColor($"The fight between the Ork and Troll ended and our champion in todays fight is the Ork.\n" +
-                            $"The fight took {rounds} rounds and ended with the following healthpoints:\n\n" +
-                            $@"
-|------------------------| ---------
-| Ork Healthpoints:      | { Ork.Lifepoints}
-| Troll Healthpoints:    | { Troll.Lifepoints}");
-                    }
-                    else if (rounds >= 100)
-                    {
-                        message.PrintConsoleMessageColor($"The fight between the Ork and Troll took to long and ended in a draw.\n" +
-                            $"The fight took {rounds} rounds and ended with the following healthpoints:\n\n" +
-                            $@"
-|------------------------| ---------
-| Ork Healthpoints:      | { Ork.Lifepoints}
-| Troll Healthpoints:    | { Troll.Lifepoints}");
-                    }
-                }
             }
-            else if (Ork.Chosen && Goblin.Chosen)
+            else if (chosenFighters[1].StartFight)
             {
-                if (Ork.StartFight)
+                while (chosenFighters[0].Lifepoints > 0 && chosenFighters[1].Lifepoints > 0 && rounds < 100)
                 {
-                    while (Ork.Lifepoints > 0 && Goblin.Lifepoints > 0 && rounds < 100)
+                    rounds++;
+                    switch (whoAttacks)
                     {
-                        rounds++;
-                        switch (whoAttacks)
-                        {
-                            case 0:
-                                Ork.Attack(Goblin);
-                                whoAttacks += 1;
-                                sound.PlayRandomAttackSound();
-                                message.PrintConsoleMessageColor($"Round {rounds}:");
-                                message.PrintOrkMessageColor("The Ork attacks!!");
-                                message.PrintConsoleMessageColor($"The Ork's life: {Ork.Lifepoints}\nThe Goblin's life: {Goblin.Lifepoints}\n--------------------\n");
-                                break;
-                            case 1:
-                                Goblin.Attack(Ork);
-                                whoAttacks -= 1;
-                                sound.PlayRandomAttackSound();
-                                message.PrintConsoleMessageColor($"Round {rounds}:");
-                                message.PrintGoblinMessageColor("The Goblin attacks!!");
-                                message.PrintConsoleMessageColor($"The Ork's life: {Ork.Lifepoints}\nThe Goblin's life: {Goblin.Lifepoints}\n--------------------\n");
-                                break;
-                            default:
-                                break;
-                        }
-                        Thread.Sleep(waitTime);
+                        case 0:
+                            chosenFighters[1].Attack(chosenFighters[0]);
+                            whoAttacks += 1;
+                            //sound.PlayRandomAttackSound();
+                            message.PrintConsoleMessageColor($"Round {rounds}:");
+                            message.PrintTrollMessageColor($"The {chosenFighters[1].Name} attacks!!");
+                            message.PrintConsoleMessageColor($"The {chosenFighters[0].Name}'s life: {chosenFighters[0].Lifepoints}\nThe {chosenFighters[1].Name}'s life: {chosenFighters[1].Lifepoints}\n--------------------\n");
+                            break;
+                        case 1:
+                            chosenFighters[0].Attack(chosenFighters[1]);
+                            whoAttacks -= 1;
+                            //sound.PlayRandomAttackSound();
+                            message.PrintConsoleMessageColor($"Round {rounds}:");
+                            message.PrintOrkMessageColor($"The {chosenFighters[0].Name} attacks!!");
+                            message.PrintConsoleMessageColor($"The {chosenFighters[0].Name}'s life: {chosenFighters[0].Lifepoints}\nThe {chosenFighters[1].Name}'s life: {chosenFighters[1].Lifepoints}\n--------------------\n");
+                            break;
+                        default:
+                            break;
                     }
-
-                    message.FightEndMessage();
-
-                    if (Ork.Lifepoints <= 0)
-                    {
-                        message.PrintConsoleMessageColor($"The fight between the Ork and Goblin ended and our champion in todays fight is the Goblin.\n" +
-                            $"The fight took {rounds} rounds and ended with the following healthpoints:\n\n" +
-                            $@"
-|------------------------| ---------
-| Ork Healthpoints:      | { Ork.Lifepoints}
-| Goblin Healthpoints:   | { Goblin.Lifepoints}");
-                    }
-                    else if (Goblin.Lifepoints <= 0)
-                    {
-                        message.PrintConsoleMessageColor($"The fight between the Ork and Goblin ended and our champion in todays fight is the Ork.\n" +
-                            $"The fight took {rounds} rounds and ended with the following healthpoints:\n\n" +
-                            $@"
-|------------------------| ---------
-| Ork Healthpoints:      | { Ork.Lifepoints}
-| Goblin Healthpoints:   | { Goblin.Lifepoints}");
-                    }
-                    else if (rounds >= 100)
-                    {
-                        message.PrintConsoleMessageColor($"The fight between the Ork and Goblin took to long and ended in a draw.\n" +
-                            $"The fight took {rounds} rounds and ended with the following healthpoints:\n\n" +
-                            $@"
-|------------------------| ---------
-| Ork Healthpoints:      | { Ork.Lifepoints}
-| Goblin Healthpoints:   | { Goblin.Lifepoints}");
-                    }
+                    Thread.Sleep(waitTime);
                 }
-                else if (Goblin.StartFight)
-                {
-                    while (Ork.Lifepoints > 0 && Goblin.Lifepoints > 0 && rounds < 100)
-                    {
-                        rounds++;
-                        switch (whoAttacks)
-                        {
-                            case 0:
-                                Goblin.Attack(Ork);
-                                whoAttacks += 1;
-                                sound.PlayRandomAttackSound();
-                                message.PrintConsoleMessageColor($"Round {rounds}:");
-                                message.PrintGoblinMessageColor("The Goblin attacks!!");
-                                message.PrintConsoleMessageColor($"The Ork's life: {Ork.Lifepoints}\nThe Goblin's life: {Goblin.Lifepoints}\n--------------------\n");
-                                break;
-                            case 1:
-                                Ork.Attack(Goblin);
-                                whoAttacks -= 1;
-                                sound.PlayRandomAttackSound();
-                                message.PrintConsoleMessageColor($"Round {rounds}:");
-                                message.PrintOrkMessageColor("The Ork attacks!!");
-                                message.PrintConsoleMessageColor($"The Ork's life: {Ork.Lifepoints}\nThe Goblin's life: {Goblin.Lifepoints}\n--------------------\n");
-                                break;
-                            default:
-                                break;
-                        }
-                        Thread.Sleep(waitTime);
-                    }
 
-                    message.FightEndMessage();
-  
-                    if (Ork.Lifepoints <= 0)
-                    {
-                        message.PrintConsoleMessageColor($"The fight between the Ork and Goblin ended and our champion in todays fight is the Goblin.\n" +
-                            $"The fight took {rounds} rounds and ended with the following healthpoints:\n\n" +
-                            $@"
-|------------------------| ---------
-| Ork Healthpoints:      | { Ork.Lifepoints}
-| Goblin Healthpoints:   | { Goblin.Lifepoints}");
-                    }
-                    else if (Goblin.Lifepoints <= 0)
-                    {
-                        message.PrintConsoleMessageColor($"The fight between the Ork and Goblin ended and our champion in todays fight is the Ork.\n" +
-                            $"The fight took {rounds} rounds and ended with the following healthpoints:\n\n" +
-                            $@"
-|------------------------| ---------
-| Ork Healthpoints:      | { Ork.Lifepoints}
-| Goblin Healthpoints:   | { Goblin.Lifepoints}");
-                    }
-                    else if (rounds >= 100)
-                    {
-                        message.PrintConsoleMessageColor($"The fight between the Ork and Goblin took to long and ended in a draw.\n" +
-                            $"The fight took {rounds} rounds and ended with the following healthpoints:\n\n" +
-                            $@"
-|------------------------| ---------
-| Ork Healthpoints:      | { Ork.Lifepoints}
-| Goblin Healthpoints:   | { Goblin.Lifepoints}");
-                    }
-                }
-            }
-            else if (Goblin.Chosen && Troll.Chosen)
-            {
-                if (Goblin.StartFight)
-                {
-                    while (Troll.Lifepoints > 0 && Goblin.Lifepoints > 0 && rounds <= 100)
-                    {
-                        rounds++;
-                        switch (whoAttacks)
-                        {
-                            case 0:
-                                Goblin.Attack(Troll);
-                                whoAttacks += 1;
-                                sound.PlayRandomAttackSound();
-                                message.PrintConsoleMessageColor($"Round {rounds}:");
-                                message.PrintGoblinMessageColor("The Goblin attacks!!");
-                                message.PrintConsoleMessageColor($"The Troll's life: {Troll.Lifepoints}\nThe Goblin's life: {Goblin.Lifepoints}\n--------------------\n");
-                                break;
-                            case 1:
-                                Troll.Attack(Goblin);
-                                whoAttacks -= 1;
-                                sound.PlayRandomAttackSound();
-                                message.PrintConsoleMessageColor($"Round {rounds}:");
-                                message.PrintTrollMessageColor("The Troll attacks!!");
-                                message.PrintConsoleMessageColor($"The Troll's life: {Troll.Lifepoints}\nThe Goblin's life: {Goblin.Lifepoints}\n--------------------\n");
-                                break;
-                            default:
-                                break;
-                        }
-                        Thread.Sleep(waitTime);
-                    }
-
-                    message.FightEndMessage();
-
-                    if (Troll.Lifepoints <= 0)
-                    {
-                        message.PrintConsoleMessageColor($"The fight between the Troll and Goblin ended and our champion in todays fight is the Goblin.\n" +
-                            $"The fight took {rounds} rounds and ended with the following healthpoints:\n\n" +
-                            $@"
-|------------------------| ---------
-| Troll Healthpoints:    | { Troll.Lifepoints}
-| Goblin Healthpoints:   | { Goblin.Lifepoints}");
-                    }
-                    else if (Goblin.Lifepoints <= 0)
-                    {
-                        message.PrintConsoleMessageColor($"The fight between the Troll and Goblin ended and our champion in todays fight is the Troll.\n" +
-                            $"The fight took {rounds} rounds and ended with the following healthpoints:\n\n" +
-                            $@"
-|------------------------| ---------
-| Troll Healthpoints:    | { Troll.Lifepoints}
-| Goblin Healthpoints:   | { Goblin.Lifepoints}");
-                    }
-                    else if (rounds >= 100)
-                    {
-                        message.PrintConsoleMessageColor($"The fight between the Troll and Goblin took to long and ended in a draw.\n" +
-                            $"The fight took {rounds} rounds and ended with the following healthpoints:\n\n" +
-                            $@"
-|------------------------| ---------
-| Troll Healthpoints:    | { Troll.Lifepoints}
-| Goblin Healthpoints:   | { Goblin.Lifepoints}");
-                    }
-                }
-                else if (Troll.StartFight)
-                {
-                    while (Troll.Lifepoints > 0 && Goblin.Lifepoints > 0 && rounds <= 100)
-                    {
-                        rounds++;
-                        switch (whoAttacks)
-                        {
-                            case 0:
-                                Troll.Attack(Goblin);
-                                whoAttacks += 1;
-                                sound.PlayRandomAttackSound();
-                                message.PrintConsoleMessageColor($"Round {rounds}:");
-                                message.PrintTrollMessageColor("The Troll attacks!!");
-                                message.PrintConsoleMessageColor($"The Troll's life: {Troll.Lifepoints}\nThe Goblin's life: {Goblin.Lifepoints}\n--------------------\n");
-                                break;
-                            case 1:
-                                Goblin.Attack(Troll);
-                                whoAttacks -= 1;
-                                sound.PlayRandomAttackSound();
-                                message.PrintConsoleMessageColor($"Round {rounds}:");
-                                message.PrintGoblinMessageColor("The Goblin attacks!!");
-                                message.PrintConsoleMessageColor($"The Troll's life: {Troll.Lifepoints}\nThe Goblin's life: {Goblin.Lifepoints}\n--------------------\n");
-                                break;
-                            default:
-                                break;
-                        }
-                        Thread.Sleep(waitTime);
-                    }
-
-                    message.FightEndMessage();
-
-                    if (Troll.Lifepoints <= 0)
-                    {
-                        message.PrintConsoleMessageColor($"The fight between the Troll and Goblin ended and our champion in todays fight is the Goblin.\n" +
-                            $"The fight took {rounds} rounds and ended with the following healthpoints:\n\n" +
-                            $@"
-|------------------------| ---------
-| Troll Healthpoints:    | { Troll.Lifepoints}
-| Goblin Healthpoints:   | { Goblin.Lifepoints}");
-                    }
-                    else if (Goblin.Lifepoints <= 0)
-                    {
-                        message.PrintConsoleMessageColor($"The fight between the Troll and Goblin ended and our champion in todays fight is the Troll.\n" +
-                            $"The fight took {rounds} rounds and ended with the following healthpoints:\n\n" +
-                            $@"
-|------------------------| ---------
-| Troll Healthpoints:    | { Troll.Lifepoints}
-| Goblin Healthpoints:   | { Goblin.Lifepoints}");
-                    }
-                    else if (rounds >= 100)
-                    {
-                        message.PrintConsoleMessageColor($"The fight between the Troll and Goblin took to long and ended in a draw.\n" +
-                            $"The fight took {rounds} rounds and ended with the following healthpoints:\n\n" +
-                            $@"
-|------------------------| ---------
-| Troll Healthpoints:    | { Troll.Lifepoints}
-| Goblin Healthpoints:   | { Goblin.Lifepoints}");
-                    }
-                }
+                message.FightEndMessage(chosenFighters[0], chosenFighters[1], rounds);
             }
 
             message.PrintConsoleMessageColor("\nProgramm will resume in 10 seconds!!");
@@ -1151,33 +507,24 @@ namespace Monsterkampfsimulator
         /** Clearing all stats if a user decides to play another round **/
         public void ClearAllStats()
         {
-            // Resetting Ork stats for a new game
-            Ork.Lifepoints = 0;
-            Ork.Attackpower = 0;
-            Ork.Defensepoints = 0;
-            Ork.Speed = 0;
-            Ork.Chosen = false;
-            Ork.StartFight = false;
+            for (int i = 0; i < chosenFighters.Count; i++)
+            {
+                // Resetting Goblin stats for a new game
+                chosenFighters[i].Lifepoints = 0;
+                chosenFighters[i].Attackpower = 0;
+                chosenFighters[i].Defensepoints = 0;
+                chosenFighters[i].Speed = 0;
+                chosenFighters[i].Chosen = false;
+                chosenFighters[i].StartFight = false;
+            }
 
-            // Resetting Troll stats for a new game
-            Troll.Lifepoints = 0;
-            Troll.Attackpower = 0;
-            Troll.Defensepoints = 0;
-            Troll.Speed = 0;
-            Troll.Chosen = false;
-            Troll.StartFight = false;
-
-            // Resetting Goblin stats for a new game
-            Goblin.Lifepoints = 0;
-            Goblin.Attackpower = 0;
-            Goblin.Defensepoints = 0;
-            Goblin.Speed = 0;
-            Goblin.Chosen = false;
-            Goblin.StartFight = false;
+            rounds = 0;
+            chosenFighters.Clear();
+            allAvailableFighters.Clear();
         }
 
         /** Checking if the user wishes to play again or end the programm **/
-        public void PlayAnother()
+        public bool PlayAnother(bool playAnother)
         {
             bool notChosen = true;
 
@@ -1227,12 +574,12 @@ namespace Monsterkampfsimulator
                         Console.Clear();
                         ClearAllStats();
                         notChosen = false;
-                        Program.playAnother = true;
+                        playAnother = true;
                         break;
                     case "no":
                     case "n":
                         notChosen = false;
-                        Program.playAnother = false;
+                        playAnother = false;
                         Environment.Exit(0);
                         break;
                     default:
@@ -1240,6 +587,7 @@ namespace Monsterkampfsimulator
                         break;
                 }
             } while (notChosen);
+            return playAnother;
         }
     }
 }

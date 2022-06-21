@@ -10,8 +10,6 @@ namespace Monsterkampfsimulator
         // Variable used for the color of the user input
         public ConsoleColor green = ConsoleColor.Green;
 
-        FightLogic fightLogic = new FightLogic();
-
         /** Writes messages in red **/
         public void PrintErrorColor(string Input, ConsoleColor cc = ConsoleColor.Red)
         {
@@ -98,8 +96,8 @@ namespace Monsterkampfsimulator
                         \__|\___/  |___/ \__|\__,_||_|    \__|  \__||_| |_| \___|  \__, | \__,_||_| |_| |_| \___|
                                                                                    |___/                         ");
 
-            MenuStartSound.LoadAsync();
-            MenuStartSound.PlayLooping();
+            //MenuStartSound.LoadAsync();
+            //MenuStartSound.PlayLooping();
         }
 
         /** While loop which ends as soon as we get the correct input **/
@@ -116,64 +114,17 @@ namespace Monsterkampfsimulator
             }
         }
 
-        /** ASCII messages for the first display of fighters **/
-        public void DisplayFightersOne()
+        /**  **/
+        public void DisplayAllAvailableFighters(List<Monster> allAvailableFighters)
         {
-            PrintConsoleMessageColor(@"
-██     ██ ██   ██ ██  ██████ ██   ██                                                                                                       
-██     ██ ██   ██ ██ ██      ██   ██                                                                                                       
-██  █  ██ ███████ ██ ██      ███████                                                                                                       
-██ ███ ██ ██   ██ ██ ██      ██   ██                                                                                                       
- ███ ███  ██   ██ ██  ██████ ██   ██                                                                                                       
-                                                                                                                                           
-                                                                                                                                           
- ██████  ███████     ████████ ██   ██ ███████ ███████ ███████     ██████      ███████ ██  ██████  ██   ██ ████████ ███████ ██████  ███████ 
-██    ██ ██             ██    ██   ██ ██      ██      ██               ██     ██      ██ ██       ██   ██    ██    ██      ██   ██ ██      
-██    ██ █████          ██    ███████ █████   ███████ █████        █████      █████   ██ ██   ███ ███████    ██    █████   ██████  ███████ 
-██    ██ ██             ██    ██   ██ ██           ██ ██               ██     ██      ██ ██    ██ ██   ██    ██    ██      ██   ██      ██ 
- ██████  ██             ██    ██   ██ ███████ ███████ ███████     ██████      ██      ██  ██████  ██   ██    ██    ███████ ██   ██ ███████ 
-                                                                                                                                           
-                                                                                                                                           
-██████   ██████      ██    ██  ██████  ██    ██     ██████  ██  ██████ ██   ██     ███████ ██ ██████  ███████ ████████ ██████              
-██   ██ ██    ██      ██  ██  ██    ██ ██    ██     ██   ██ ██ ██      ██  ██      ██      ██ ██   ██ ██         ██         ██             
-██   ██ ██    ██       ████   ██    ██ ██    ██     ██████  ██ ██      █████       █████   ██ ██████  ███████    ██      ▄███              
-██   ██ ██    ██        ██    ██    ██ ██    ██     ██      ██ ██      ██  ██      ██      ██ ██   ██      ██    ██      ▀▀                
-██████   ██████         ██     ██████   ██████      ██      ██  ██████ ██   ██     ██      ██ ██   ██ ███████    ██      ██");
-
-            PrintOrkMessageColor(@"
- ██╗        ██████╗ ██████╗ ██╗  ██╗
-███║       ██╔═══██╗██╔══██╗██║ ██╔╝
-╚██║       ██║   ██║██████╔╝█████╔╝ 
- ██║       ██║   ██║██╔══██╗██╔═██╗ 
- ██║██╗    ╚██████╔╝██║  ██║██║  ██╗
- ╚═╝╚═╝     ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝");
-
-            PrintTrollMessageColor(@"
-██████╗        ████████╗██████╗  ██████╗ ██╗     ██╗     
-╚════██╗       ╚══██╔══╝██╔══██╗██╔═══██╗██║     ██║     
- █████╔╝          ██║   ██████╔╝██║   ██║██║     ██║     
-██╔═══╝           ██║   ██╔══██╗██║   ██║██║     ██║     
-███████╗██╗       ██║   ██║  ██║╚██████╔╝███████╗███████╗
-╚══════╝╚═╝       ╚═╝   ╚═╝  ╚═╝ ╚═════╝ ╚══════╝╚══════╝");
-
-            PrintConsoleMessageColor(@"
- ██████ ██████  
-██    ████   ██ 
-██    ████████  
-██    ████   ██ 
- ██████ ██   ██ ");
-
-            PrintGoblinMessageColor(@"
-██████╗         ██████╗  ██████╗ ██████╗ ██╗     ██╗███╗   ██╗
-╚════██╗       ██╔════╝ ██╔═══██╗██╔══██╗██║     ██║████╗  ██║
- █████╔╝       ██║  ███╗██║   ██║██████╔╝██║     ██║██╔██╗ ██║
- ╚═══██╗       ██║   ██║██║   ██║██╔══██╗██║     ██║██║╚██╗██║
-██████╔╝██╗    ╚██████╔╝╚██████╔╝██████╔╝███████╗██║██║ ╚████║
-╚═════╝ ╚═╝     ╚═════╝  ╚═════╝ ╚═════╝ ╚══════╝╚═╝╚═╝  ╚═══╝");
+            for (int i = 0; i < allAvailableFighters.Count; i++)
+            {
+                PrintConsoleMessageColor($"{allAvailableFighters[i].Number}. {allAvailableFighters[i].Name}");
+            }
         }
 
         /** Explanation message for the attributes and how we collect them **/
-        public void ExplanationMessage()
+        public void ExplanationMessage(string fighterOne)
         {
             PrintConsoleMessageColor($"\nNow we need your help! Each of our fighters has different attributes which we need YOU to set for us.\n" +
                 $"Those attributes are the following:\n" +
@@ -182,30 +133,67 @@ namespace Monsterkampfsimulator
                 $"3. Defensepoints\n" +
                 $"4. Speed\n" +
                 $"----------------\n" +
-                $"We will ask for each attribute seperately from 1 to 4 and start with your first picked fighter the {fightLogic.FighterOne}.\n");
+                $"We will ask for each attribute seperately from 1 to 4 and start with your first picked fighter the {fighterOne}.\n");
+        }
+
+        /** Show the attributes of the first fighter before we enter the attributes of the 2nd one **/
+        public void ShowStatsFighterOne(Monster m1)
+        {
+            PrintConsoleMessageColor($@"
+|                 |  {m1.Name}
+|-----------------| -------
+| Healthpoints:   | {m1.Lifepoints}
+| Attackpower:    | {m1.Attackpower}
+| Defensepoints:  | {m1.Defensepoints}
+| Speed:          | {m1.Speed}");
         }
 
         /** Transition message between the collection of the attributes of both fighters **/
-        public void TransitionMessage()
+        public void TransitionMessage(string fighterOne, string fighterTwo)
         {
-            PrintConsoleMessageColor($"\n\nGreat! The {fightLogic.FighterOne} now has stats for each of their attributes.\n" +
+            PrintConsoleMessageColor($"\n\nGreat! The {fighterOne} now has stats for each of their attributes.\n" +
                 $"----------------\n" +
-                $"We will now proceed with the stats for our 2nd fighter the {fightLogic.FighterTwo}.\n" +
+                $"We will now proceed with the stats for our 2nd fighter the {fighterTwo}.\n" +
                 $"----------------\n");
         }
 
-        /** Message ending the attribute collection and telling the user to press any button to start the fight **/
-        public void AttributeEndMessage()
+        /** Show the attributes of both fighters **/
+        public void ShowStatsBothFighters(Monster m1, Monster m2)
         {
-            PrintConsoleMessageColor($"\nAmazing! Now that both our fighters the {fightLogic.FighterOne} and {fightLogic.FighterTwo} are ready to start their battle please give us the start signal " +
-                $"by pressing any BUTTON on your keyboard!!\n");
+            PrintConsoleMessageColor($@"
+|                 |  {m1.Name}
+|-----------------| -------
+| Healthpoints:   | {m1.Lifepoints}
+| Attackpower:    | {m1.Attackpower}
+| Defensepoints:  | {m1.Defensepoints}
+| Speed:          | {m1.Speed}
+            -----------------------------
+|                 |  {m2.Name}
+|-----------------| -------
+| Healthpoints:   | {m2.Lifepoints}
+| Attackpower:    | {m2.Attackpower}
+| Defensepoints:  | {m2.Defensepoints}
+| Speed:          | {m2.Speed}");
+        }
+
+        /** Message ending the attribute collection and telling the user to press any button to start the fight **/
+        public void CollectionEndMessage(string fighterOne, string fighterTwo)
+        {
+            PrintConsoleMessageColor($"\nAmazing! Now that both our fighters the {fighterOne} and {fighterTwo} are ready to start their battle please give us the start signal " +
+                $"by pressing any BUTTON on your keyboard!!\n" +
+                $"------------------------------------------------\n" +
+                $"IN ORDER TO START THE BATTLE PLEASE PRESS ANY BUTTON!!\n");
         }
 
         /** ASCII Art and sound for the start of the fight **/
         public void StartFightMessageAndSound(SoundPlayer FightStartSound)
         {
-            FightStartSound.LoadAsync();
-            FightStartSound.PlaySync();
+            //if (FightStartSound != null)
+            //{
+            //    FightStartSound.LoadAsync();
+            //    FightStartSound.PlaySync();
+            //}
+            
             PrintConsoleMessageColor(@"
   _____  _         _      _    _  _ 
  |  ___|(_)  __ _ | |__  | |_ | || |
@@ -216,7 +204,7 @@ namespace Monsterkampfsimulator
         }
 
         /** Gives out the message which is shown after a fight ended **/
-        public void FightEndMessage()
+        public void FightEndMessage(Monster m1, Monster m2, int rounds)
         {
             PrintConsoleMessageColor(@"
 ███████╗██╗ ██████╗ ██╗  ██╗████████╗    ███████╗███╗   ██╗██████╗ ███████╗██████╗ 
@@ -226,6 +214,34 @@ namespace Monsterkampfsimulator
 ██║     ██║╚██████╔╝██║  ██║   ██║       ███████╗██║ ╚████║██████╔╝███████╗██████╔╝
 ╚═╝     ╚═╝ ╚═════╝ ╚═╝  ╚═╝   ╚═╝       ╚══════╝╚═╝  ╚═══╝╚═════╝ ╚══════╝╚═════╝ 
 -----------------------------------------------------------------------------------");
+
+            if (m1.Lifepoints <= 0)
+            {
+                PrintConsoleMessageColor($"The fight between the {m1.Name} and {m2.Name} ended and our champion in todays fight is the {m2.Name}.\n" +
+                    $"The fight took {rounds} rounds and ended with the following healthpoints:\n\n" +
+                    $@"
+|------------------------| ---------
+| {m1.Name} Healthpoints:    | {m1.Lifepoints}
+| {m2.Name} Healthpoints:    | {m2.Lifepoints}");
+            }
+            else if (m2.Lifepoints <= 0)
+            {
+                PrintConsoleMessageColor($"The fight between the {m1.Name} and {m2.Name} ended and our champion in todays fight is the {m1.Name}.\n" +
+                    $"The fight took {rounds} rounds and ended with the following healthpoints:\n\n" +
+                    $@"
+|------------------------| ---------
+| {m1.Name} Healthpoints:    | {m1.Lifepoints}
+| {m2.Name} Healthpoints:    | {m2.Lifepoints}");
+            }
+            else if (rounds >= 100)
+            {
+                PrintConsoleMessageColor($"The fight between the {m1.Name} and {m2.Name} took to long and ended in a draw.\n" +
+                    $"The fight took {rounds} rounds and ended with the following healthpoints:\n\n" +
+                    $@"
+|------------------------| ---------
+| {m1.Name} Healthpoints:    | {m1.Lifepoints}
+| {m2.Name} Healthpoints:    | {m2.Lifepoints}");
+            }
         }
 
         /** Contains the credits to all the content used by 3rd parties **/

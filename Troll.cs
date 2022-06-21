@@ -6,5 +6,14 @@ namespace Monsterkampfsimulator
 {
     class Troll : Monster
     {
+        public Troll()
+        {
+        }
+
+        public Troll(int number, string name)
+        {
+            this.number = number;
+            this.name = name;
+        }
     }
 }
