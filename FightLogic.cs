@@ -5,56 +5,59 @@ using System.Threading;
 
 namespace Monsterkampfsimulator
 {
-    static class FightLogic
+    class FightLogic
     {
         // Strings used for the user input
-        static string race1;
-        static string race2;
+        string race1;
+        string race2;
 
         // Int used to keep track of how many rounds our fighters fought
-        static int rounds = 0;
+        int rounds = 0;
         // Int used to switch between who of the fighters attack in the given round
-        static int whoAttacks = 0;
+        int whoAttacks = 0;
         // Used to delay each round in our fight
-        static int waitTime = 500;
+        int waitTime = 500;
         // Used to check that the user entered a valid input when asking for the 2 fighters
-        static bool bNotMatching;
+        bool bNotMatching;
 
         // Attributes for fighter 1
-        static float lifepointsOne = 0f; 
-        static float attackpowerOne = 0f; 
-        static float defensepointsOne = 0f; 
-        static float speedOne = 0f;
+        float lifepointsOne = 0f; 
+        float attackpowerOne = 0f; 
+        float defensepointsOne = 0f; 
+        float speedOne = 0f;
 
         // Attributes for fighter 2
-        static float lifepointsTwo = 0f;
-        static float attackpowerTwo = 0f;
-        static float defensepointsTwo = 0f;
-        static float speedTwo = 0f;
+        float lifepointsTwo = 0f;
+        float attackpowerTwo = 0f;
+        float defensepointsTwo = 0f;
+        float speedTwo = 0f;
 
-        static Ork Ork = new Ork();
-        static Troll Troll = new Troll();
-        static Goblin Goblin = new Goblin();
+        Ork Ork = new Ork();
+        Troll Troll = new Troll();
+        Goblin Goblin = new Goblin();
+        Sound sound = new Sound();
+        Messages message = new Messages();
+
 
         /** Get methode for race1 **/
-        public static string FighterOne
+        public string FighterOne
         {
             get { return race1; }
         }
 
         /** Get methode for race2 **/
-        public static string FighterTwo
+        public string FighterTwo
         {
             get { return race2; }
         }
 
         /** Asking user for the first fighter **/
-        public static void GetFighterOneInput()
+        public void GetFighterOneInput()
         {
             // Doing a do-while loop in order to redo the action until we have a valid input
             do
             {
-                race1 = Messages.UserInputMessage();
+                race1 = message.UserInputMessage();
                 // Switch case in order to set attributes for our first fighter and setting the string to all lower cases to ignore case sensitivity
                 switch (race1.ToLower())
                 {
@@ -81,18 +84,18 @@ namespace Monsterkampfsimulator
                         break;
                     default:
                         bNotMatching = true;
-                        Messages.PrintErrorColor("Please make sure that you write the fighters names correctly!\n");
+                        message.PrintErrorColor("Please make sure that you write the fighters names correctly!\n");
                         break;
                 }
             } while (bNotMatching);
         }
 
         /** Asking user for the second fighter **/
-        public static void GetFighterTwoInput()
+        public void GetFighterTwoInput()
         {
             do
             {
-                Messages.PrintConsoleMessageColor(@"
+                message.PrintConsoleMessageColor(@"
 ██     ██ ██   ██  ██████      ██ ███████     ██    ██  ██████  ██    ██ ██████           
 ██     ██ ██   ██ ██    ██     ██ ██           ██  ██  ██    ██ ██    ██ ██   ██          
 ██  █  ██ ███████ ██    ██     ██ ███████       ████   ██    ██ ██    ██ ██████           
@@ -108,20 +111,20 @@ namespace Monsterkampfsimulator
 
                 if (Ork.Chosen)
                 {
-                    Messages.PrintTrollMessageColor(@"
+                    message.PrintTrollMessageColor(@"
  ██╗       ████████╗██████╗  ██████╗ ██╗     ██╗     
 ███║       ╚══██╔══╝██╔══██╗██╔═══██╗██║     ██║     
 ╚██║          ██║   ██████╔╝██║   ██║██║     ██║     
  ██║          ██║   ██╔══██╗██║   ██║██║     ██║     
  ██║██╗       ██║   ██║  ██║╚██████╔╝███████╗███████╗
  ╚═╝╚═╝       ╚═╝   ╚═╝  ╚═╝ ╚═════╝ ╚══════╝╚══════╝");
-                    Messages.PrintConsoleMessageColor(@"
+                    message.PrintConsoleMessageColor(@"
  ██████ ██████  
 ██    ████   ██ 
 ██    ████████  
 ██    ████   ██ 
  ██████ ██   ██ ");
-                    Messages.PrintGoblinMessageColor(@"
+                    message.PrintGoblinMessageColor(@"
 ██████╗         ██████╗  ██████╗ ██████╗ ██╗     ██╗███╗   ██╗
 ╚════██╗       ██╔════╝ ██╔═══██╗██╔══██╗██║     ██║████╗  ██║
  █████╔╝       ██║  ███╗██║   ██║██████╔╝██║     ██║██╔██╗ ██║
@@ -129,12 +132,12 @@ namespace Monsterkampfsimulator
 ███████╗██╗    ╚██████╔╝╚██████╔╝██████╔╝███████╗██║██║ ╚████║
 ╚══════╝╚═╝     ╚═════╝  ╚═════╝ ╚═════╝ ╚══════╝╚═╝╚═╝  ╚═══╝");
 
-                    race2 = Messages.UserInputMessage();
+                    race2 = message.UserInputMessage();
 
                     // We check if the user selected the same race again and print a message if he did so. Otherwise we use a 2nd switch statement to create the 2nd fighter object.
                     if (race1.ToLower() == race2.ToLower())
                     {
-                        Messages.PrintErrorColor($"{race1} was already chosen as the first fighter! Please chose one of the other two that are available\n----------------");
+                        message.PrintErrorColor($"{race1} was already chosen as the first fighter! Please chose one of the other two that are available\n----------------");
                         bNotMatching = true;
                     }
                     else
@@ -157,27 +160,27 @@ namespace Monsterkampfsimulator
                                 break;
                             default:
                                 bNotMatching = true;
-                                Messages.PrintErrorColor("Please make sure that you write the fighters names correctly!\n");
+                                message.PrintErrorColor("Please make sure that you write the fighters names correctly!\n");
                                 break;
                         }
                     }
                 }
                 else if (Troll.Chosen)
                 {
-                    Messages.PrintOrkMessageColor(@"
+                    message.PrintOrkMessageColor(@"
  ██╗        ██████╗ ██████╗ ██╗  ██╗
 ███║       ██╔═══██╗██╔══██╗██║ ██╔╝
 ╚██║       ██║   ██║██████╔╝█████╔╝ 
  ██║       ██║   ██║██╔══██╗██╔═██╗ 
  ██║██╗    ╚██████╔╝██║  ██║██║  ██╗
  ╚═╝╚═╝     ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝");
-                    Messages.PrintConsoleMessageColor(@"
+                    message.PrintConsoleMessageColor(@"
  ██████ ██████  
 ██    ████   ██ 
 ██    ████████  
 ██    ████   ██ 
  ██████ ██   ██ ");
-                    Messages.PrintGoblinMessageColor(@"
+                    message.PrintGoblinMessageColor(@"
 ██████╗         ██████╗  ██████╗ ██████╗ ██╗     ██╗███╗   ██╗
 ╚════██╗       ██╔════╝ ██╔═══██╗██╔══██╗██║     ██║████╗  ██║
  █████╔╝       ██║  ███╗██║   ██║██████╔╝██║     ██║██╔██╗ ██║
@@ -185,12 +188,12 @@ namespace Monsterkampfsimulator
 ███████╗██╗    ╚██████╔╝╚██████╔╝██████╔╝███████╗██║██║ ╚████║
 ╚══════╝╚═╝     ╚═════╝  ╚═════╝ ╚═════╝ ╚══════╝╚═╝╚═╝  ╚═══╝");
 
-                    race2 = Messages.UserInputMessage();
+                    race2 = message.UserInputMessage();
 
                     // We check if the user selected the same race again and print a message if he did so. Otherwise we use a 2nd switch statement to create the 2nd fighter object.
                     if (race1.ToLower() == race2.ToLower())
                     {
-                        Messages.PrintErrorColor($"{race1} was already chosen as the first fighter! Please chose one of the other two that are available\n----------------");
+                        message.PrintErrorColor($"{race1} was already chosen as the first fighter! Please chose one of the other two that are available\n----------------");
                         bNotMatching = true;
                     }
                     else
@@ -213,27 +216,27 @@ namespace Monsterkampfsimulator
                                 break;
                             default:
                                 bNotMatching = true;
-                                Messages.PrintErrorColor("Please make sure that you write the fighters names correctly!\n");
+                                message.PrintErrorColor("Please make sure that you write the fighters names correctly!\n");
                                 break;
                         }
                     }
                 }
                 else
                 {
-                    Messages.PrintOrkMessageColor(@"
+                    message.PrintOrkMessageColor(@"
  ██╗        ██████╗ ██████╗ ██╗  ██╗
 ███║       ██╔═══██╗██╔══██╗██║ ██╔╝
 ╚██║       ██║   ██║██████╔╝█████╔╝ 
  ██║       ██║   ██║██╔══██╗██╔═██╗ 
  ██║██╗    ╚██████╔╝██║  ██║██║  ██╗
  ╚═╝╚═╝     ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝");
-                    Messages.PrintConsoleMessageColor(@"
+                    message.PrintConsoleMessageColor(@"
  ██████ ██████  
 ██    ████   ██ 
 ██    ████████  
 ██    ████   ██ 
  ██████ ██   ██ ");
-                    Messages.PrintTrollMessageColor(@"
+                    message.PrintTrollMessageColor(@"
 ██████╗        ████████╗██████╗  ██████╗ ██╗     ██╗     
 ╚════██╗       ╚══██╔══╝██╔══██╗██╔═══██╗██║     ██║     
  █████╔╝          ██║   ██████╔╝██║   ██║██║     ██║     
@@ -241,12 +244,12 @@ namespace Monsterkampfsimulator
 ███████╗██╗       ██║   ██║  ██║╚██████╔╝███████╗███████╗
 ╚══════╝╚═╝       ╚═╝   ╚═╝  ╚═╝ ╚═════╝ ╚══════╝╚══════╝");
 
-                    race2 = Messages.UserInputMessage();
+                    race2 = message.UserInputMessage();
 
                     // We check if the user selected the same race again and print a message if he did so. Otherwise we use a 2nd switch statement to create the 2nd fighter object.
                     if (race1.ToLower() == race2.ToLower())
                     {
-                        Messages.PrintErrorColor($"{race1} was already chosen as the first fighter! Please chose one of the other two that are available\n----------------");
+                        message.PrintErrorColor($"{race1} was already chosen as the first fighter! Please chose one of the other two that are available\n----------------");
                         bNotMatching = true;
                     }
                     else
@@ -269,7 +272,7 @@ namespace Monsterkampfsimulator
                                 break;
                             default:
                                 bNotMatching = true;
-                                Messages.PrintErrorColor("Please make sure that you write the fighters names correctly!\n");
+                                message.PrintErrorColor("Please make sure that you write the fighters names correctly!\n");
                                 break;
                         }
                     }
@@ -280,7 +283,7 @@ namespace Monsterkampfsimulator
         }
 
         /** Function to collect the stats of the 1st fighter **/
-        public static void GetFighterOneStats()
+        public void GetFighterOneStats()
         {
             // Created a bool for the do while loops
             bool bNegativeValue;
@@ -289,9 +292,9 @@ namespace Monsterkampfsimulator
             do
             {
                 // Asking for the Health value
-                Messages.PrintConsoleMessageColor($"Please give the {race1} a positive Health value:");
+                message.PrintConsoleMessageColor($"Please give the {race1} a positive Health value:");
 
-                Console.ForegroundColor = Messages.green;
+                Console.ForegroundColor = message.green;
                 // Due to Console.ReadLine() returning a string value we parse it into the required float value with float.TryParse() and also check if any other value than a numeric one was used
                 if (float.TryParse(Console.ReadLine(), out result))
                 {
@@ -299,7 +302,7 @@ namespace Monsterkampfsimulator
                 }
                 else
                 {
-                    Messages.PrintErrorColor("\nMake sure to only enter a numeric value!\n--------------------------");
+                    message.PrintErrorColor("\nMake sure to only enter a numeric value!\n--------------------------");
                 }
                 Console.ResetColor();
 
@@ -324,7 +327,7 @@ namespace Monsterkampfsimulator
                 }
                 else
                 {
-                    Messages.PrintErrorColor("Please make sure to only enter positive values!");
+                    message.PrintErrorColor("Please make sure to only enter positive values!");
                     bNegativeValue = true;
                 }
             } while (bNegativeValue);
@@ -332,8 +335,8 @@ namespace Monsterkampfsimulator
             do
             {
                 // Asking for the Attackpower value
-                Messages.PrintConsoleMessageColor($"Please give the {race1} a positive Attackpower value:");
-                Console.ForegroundColor = Messages.green;
+                message.PrintConsoleMessageColor($"Please give the {race1} a positive Attackpower value:");
+                Console.ForegroundColor = message.green;
                 // Due to Console.ReadLine() returning a string value we parse it into the required float value with float.TryParse() and also check if any other value than a numeric one was used
                 if (float.TryParse(Console.ReadLine(), out result))
                 {
@@ -341,7 +344,7 @@ namespace Monsterkampfsimulator
                 }
                 else
                 {
-                    Messages.PrintErrorColor("\nMake sure to only enter a numeric value!\n--------------------------");
+                    message.PrintErrorColor("\nMake sure to only enter a numeric value!\n--------------------------");
                 }
                 Console.ResetColor();
                 // Checking that the entered value is positive
@@ -365,7 +368,7 @@ namespace Monsterkampfsimulator
                 }
                 else
                 {
-                    Messages.PrintErrorColor("Please make sure to only enter positive values!");
+                    message.PrintErrorColor("Please make sure to only enter positive values!");
                     bNegativeValue = true;
                 }
             } while (bNegativeValue);
@@ -373,8 +376,8 @@ namespace Monsterkampfsimulator
             do
             {
                 // Asking for the Defensepoint value
-                Messages.PrintConsoleMessageColor($"Please give the {race1} a positive Defensepoint value:");
-                Console.ForegroundColor = Messages.green;
+                message.PrintConsoleMessageColor($"Please give the {race1} a positive Defensepoint value:");
+                Console.ForegroundColor = message.green;
                 // Due to Console.ReadLine() returning a string value we parse it into the required float value with float.TryParse() and also check if any other value than a numeric one was used
                 if (float.TryParse(Console.ReadLine(), out result))
                 {
@@ -382,7 +385,7 @@ namespace Monsterkampfsimulator
                 }
                 else
                 {
-                    Messages.PrintErrorColor("\nMake sure to only enter a numeric value!\n--------------------------");
+                    message.PrintErrorColor("\nMake sure to only enter a numeric value!\n--------------------------");
                 }
                 Console.ResetColor();
                 // Checking that the entered value is positive
@@ -406,7 +409,7 @@ namespace Monsterkampfsimulator
                 }
                 else
                 {
-                    Messages.PrintErrorColor("Please make sure to only enter positive values!");
+                    message.PrintErrorColor("Please make sure to only enter positive values!");
                     bNegativeValue = true;
                 }
             } while (bNegativeValue);
@@ -414,8 +417,8 @@ namespace Monsterkampfsimulator
             do
             {
                 // Asking for the Speed value
-                Messages.PrintConsoleMessageColor($"Please give the {race1} a positive Speed value:");
-                Console.ForegroundColor = Messages.green;
+                message.PrintConsoleMessageColor($"Please give the {race1} a positive Speed value:");
+                Console.ForegroundColor = message.green;
                 // Due to Console.ReadLine() returning a string value we parse it into the required float value with float.TryParse() and also check if any other value than a numeric one was used
                 if (float.TryParse(Console.ReadLine(), out result))
                 {
@@ -423,7 +426,7 @@ namespace Monsterkampfsimulator
                 }
                 else
                 {
-                    Messages.PrintErrorColor("\nMake sure to only enter a numeric value!\n--------------------------");
+                    message.PrintErrorColor("\nMake sure to only enter a numeric value!\n--------------------------");
                 }
                 Console.ResetColor();
                 // Checking that the entered value is positive
@@ -447,7 +450,7 @@ namespace Monsterkampfsimulator
                 }
                 else
                 {
-                    Messages.PrintErrorColor("Please make sure to only enter positive values!");
+                    message.PrintErrorColor("Please make sure to only enter positive values!");
                     bNegativeValue = true;
                 }
             } while (bNegativeValue);
@@ -455,7 +458,7 @@ namespace Monsterkampfsimulator
         }
 
         /** Setting sp1 to later use it in GetFighterTwoStats() for speed comparison **/
-        public static void SettingCompareSpeed()
+        public void SettingCompareSpeed()
         {
             if (Ork.Chosen)
             {
@@ -472,7 +475,7 @@ namespace Monsterkampfsimulator
         }
 
         /** Function to collect the stats of the 2nd fighter **/
-        public static void GetFighterTwoStats()
+        public void GetFighterTwoStats()
         {
             // Created a bool for the do while loops
             bool bNegativeValue;
@@ -481,8 +484,8 @@ namespace Monsterkampfsimulator
             do
             {
                 // Asking for the Health value
-                Messages.PrintConsoleMessageColor($"Please give the {race2} a positive Health value:");
-                Console.ForegroundColor = Messages.green;
+                message.PrintConsoleMessageColor($"Please give the {race2} a positive Health value:");
+                Console.ForegroundColor = message.green;
                 // Due to Console.ReadLine() returning a string value we parse it into the required float value with float.TryParse() and also check if any other value than a numeric one was used
                 if (float.TryParse(Console.ReadLine(), out result))
                 {
@@ -490,7 +493,7 @@ namespace Monsterkampfsimulator
                 }
                 else
                 {
-                    Messages.PrintErrorColor("\nMake sure to only enter a numeric value!\n--------------------------");
+                    message.PrintErrorColor("\nMake sure to only enter a numeric value!\n--------------------------");
                 }
                 Console.ResetColor();
                 // Checking that the entered value is positive
@@ -514,7 +517,7 @@ namespace Monsterkampfsimulator
                 }
                 else
                 {
-                    Messages.PrintErrorColor("Please make sure to only enter positive values!");
+                    message.PrintErrorColor("Please make sure to only enter positive values!");
                     bNegativeValue = true;
                 }
             } while (bNegativeValue);
@@ -522,8 +525,8 @@ namespace Monsterkampfsimulator
             do
             {
                 // Asking for the Attackpower value
-                Messages.PrintConsoleMessageColor($"Please give the {race2} a positive Attackpower value:");
-                Console.ForegroundColor = Messages.green;
+                message.PrintConsoleMessageColor($"Please give the {race2} a positive Attackpower value:");
+                Console.ForegroundColor = message.green;
                 // Due to Console.ReadLine() returning a string value we parse it into the required float value with float.TryParse() and also check if any other value than a numeric one was used
                 if (float.TryParse(Console.ReadLine(), out result))
                 {
@@ -531,7 +534,7 @@ namespace Monsterkampfsimulator
                 }
                 else
                 {
-                    Messages.PrintErrorColor("\nMake sure to only enter a numeric value!\n--------------------------");
+                    message.PrintErrorColor("\nMake sure to only enter a numeric value!\n--------------------------");
                 }
                 Console.ResetColor();
                 // Checking that the entered value is positive
@@ -555,7 +558,7 @@ namespace Monsterkampfsimulator
                 }
                 else
                 {
-                    Messages.PrintErrorColor("Please make sure to only enter positive values!");
+                    message.PrintErrorColor("Please make sure to only enter positive values!");
                     bNegativeValue = true;
                 }
             } while (bNegativeValue);
@@ -563,8 +566,8 @@ namespace Monsterkampfsimulator
             do
             {
                 // Asking for the Defensepoint value
-                Messages.PrintConsoleMessageColor($"Please give the {race2} a positive Defensepoint value:");
-                Console.ForegroundColor = Messages.green;
+                message.PrintConsoleMessageColor($"Please give the {race2} a positive Defensepoint value:");
+                Console.ForegroundColor = message.green;
                 // Due to Console.ReadLine() returning a string value we parse it into the required float value with float.TryParse() and also check if any other value than a numeric one was used
                 if (float.TryParse(Console.ReadLine(), out result))
                 {
@@ -572,7 +575,7 @@ namespace Monsterkampfsimulator
                 }
                 else
                 {
-                    Messages.PrintErrorColor("\nMake sure to only enter a numeric value!\n--------------------------");
+                    message.PrintErrorColor("\nMake sure to only enter a numeric value!\n--------------------------");
                 }
                 Console.ResetColor();
                 // Checking that the entered value is positive
@@ -596,7 +599,7 @@ namespace Monsterkampfsimulator
                 }
                 else
                 {
-                    Messages.PrintErrorColor("Please make sure to only enter positive values!");
+                    message.PrintErrorColor("Please make sure to only enter positive values!");
                     bNegativeValue = true;
                 }
             } while (bNegativeValue);
@@ -604,8 +607,8 @@ namespace Monsterkampfsimulator
             do
             {
                 // Asking for the Speed value
-                Messages.PrintConsoleMessageColor($"Please give the {race2} a positive Speed value:");
-                Console.ForegroundColor = Messages.green;
+                message.PrintConsoleMessageColor($"Please give the {race2} a positive Speed value:");
+                Console.ForegroundColor = message.green;
                 // Due to Console.ReadLine() returning a string value we parse it into the required float value with float.TryParse() and also check if any other value than a numeric one was used
                 if (float.TryParse(Console.ReadLine(), out result))
                 {
@@ -613,7 +616,7 @@ namespace Monsterkampfsimulator
                 }
                 else
                 {
-                    Messages.PrintErrorColor("\nMake sure to only enter a numeric value!\n--------------------------");
+                    message.PrintErrorColor("\nMake sure to only enter a numeric value!\n--------------------------");
                 }
                 Console.ResetColor();
                 // Checking that the entered value is positive and doesn't match the first speed value
@@ -637,18 +640,18 @@ namespace Monsterkampfsimulator
                 }
                 else
                 {
-                    Messages.PrintErrorColor("Please make sure to only enter positive values and not the same value as you did for the first fighter!");
+                    message.PrintErrorColor("Please make sure to only enter positive values and not the same value as you did for the first fighter!");
                     bNegativeValue = true;
                 }
             } while (bNegativeValue);
         }
 
         /** Show the attributes of the first fighter before we enter the attributes of the 2nd one **/
-        public static void ShowStatsFighterOne()
+        public void ShowStatsFighterOne()
         {
             if (race1.ToLower() == "ork")
             {
-                Messages.PrintConsoleMessageColor($@"
+                message.PrintConsoleMessageColor($@"
 |                 |  Ork
 |-----------------| -------
 | Healthpoints:   | {Ork.Lifepoints}
@@ -658,7 +661,7 @@ namespace Monsterkampfsimulator
             }
             else if (race1.ToLower() == "goblin")
             {
-                Messages.PrintConsoleMessageColor($@"
+                message.PrintConsoleMessageColor($@"
 |                 |  Goblin
 |-----------------| -------
 | Healthpoints:   | {Goblin.Lifepoints}
@@ -668,7 +671,7 @@ namespace Monsterkampfsimulator
             }
             else
             {
-                Messages.PrintConsoleMessageColor($@"
+                message.PrintConsoleMessageColor($@"
 |                 |  Troll
 |-----------------| -------
 | Healthpoints:   | {Troll.Lifepoints}
@@ -679,11 +682,11 @@ namespace Monsterkampfsimulator
         }
         
         /** Show the attributes of both fighters **/
-        public static void ShowStatsBothFighters()
+        public void ShowStatsBothFighters()
         {
             if (Ork.Chosen && Troll.Chosen)
             {
-                Messages.PrintConsoleMessageColor($@"
+                message.PrintConsoleMessageColor($@"
 |                 |  Ork
 |-----------------| -------
 | Healthpoints:   | {Ork.Lifepoints}
@@ -700,7 +703,7 @@ namespace Monsterkampfsimulator
             }
             else if (Ork.Chosen && Goblin.Chosen)
             {
-                Messages.PrintConsoleMessageColor($@"
+                message.PrintConsoleMessageColor($@"
 |                 |  Ork
 |-----------------| -------
 | Healthpoints:   | {Ork.Lifepoints}
@@ -717,7 +720,7 @@ namespace Monsterkampfsimulator
             }
             else if (Goblin.Chosen && Troll.Chosen)
             {
-                Messages.PrintConsoleMessageColor($@"
+                message.PrintConsoleMessageColor($@"
 |                 |  Troll
 |-----------------| -------
 | Healthpoints:   | {Troll.Lifepoints}
@@ -735,7 +738,7 @@ namespace Monsterkampfsimulator
         }
 
         /** Comparing speeds and setting the start boolean for the fight **/
-        public static void WhoStartsFight()
+        public void WhoStartsFight()
         {
             if (Ork.Chosen && Troll.Chosen)
             {
@@ -773,7 +776,7 @@ namespace Monsterkampfsimulator
         }
 
         /** Starting the fight and ending it **/
-        public static void StartFight()
+        public void StartFight()
         {
             if (Ork.Chosen && Troll.Chosen)
             {
@@ -789,18 +792,18 @@ namespace Monsterkampfsimulator
                             case 0:
                                 Ork.Attack(Troll);
                                 whoAttacks += 1;
-                                Sound.PlayRandomAttackSound();
-                                Messages.PrintConsoleMessageColor($"Round {rounds}:");
-                                Messages.PrintOrkMessageColor("The Ork attacks!!");
-                                Messages.PrintConsoleMessageColor($"The Ork's life: {Ork.Lifepoints}\nThe Troll's life: {Troll.Lifepoints}\n--------------------\n");
+                                sound.PlayRandomAttackSound();
+                                message.PrintConsoleMessageColor($"Round {rounds}:");
+                                message.PrintOrkMessageColor("The Ork attacks!!");
+                                message.PrintConsoleMessageColor($"The Ork's life: {Ork.Lifepoints}\nThe Troll's life: {Troll.Lifepoints}\n--------------------\n");
                                 break;
                             case 1:
                                 Troll.Attack(Ork);
                                 whoAttacks -= 1;
-                                Sound.PlayRandomAttackSound();
-                                Messages.PrintConsoleMessageColor($"Round {rounds}:");
-                                Messages.PrintTrollMessageColor("The Troll attacks!!");
-                                Messages.PrintConsoleMessageColor($"The Ork's life: {Ork.Lifepoints}\nThe Troll's life: {Troll.Lifepoints}\n--------------------\n");
+                                sound.PlayRandomAttackSound();
+                                message.PrintConsoleMessageColor($"Round {rounds}:");
+                                message.PrintTrollMessageColor("The Troll attacks!!");
+                                message.PrintConsoleMessageColor($"The Ork's life: {Ork.Lifepoints}\nThe Troll's life: {Troll.Lifepoints}\n--------------------\n");
                                 break;
                             default:
                                 break;
@@ -808,11 +811,11 @@ namespace Monsterkampfsimulator
                         Thread.Sleep(waitTime);
                     }
 
-                    Messages.FightEndMessage();
+                    message.FightEndMessage();
 
                     if (Ork.Lifepoints <= 0)
                     {
-                        Messages.PrintConsoleMessageColor($"The fight between the Ork and Troll ended and our champion in todays fight is the Troll.\n" +
+                        message.PrintConsoleMessageColor($"The fight between the Ork and Troll ended and our champion in todays fight is the Troll.\n" +
                             $"The fight took {rounds} rounds and ended with the following healthpoints:\n\n" +
                             $@"
 |------------------------| ---------
@@ -821,7 +824,7 @@ namespace Monsterkampfsimulator
                     }
                     else if (Troll.Lifepoints <= 0)
                     {
-                        Messages.PrintConsoleMessageColor($"The fight between the Ork and Troll ended and our champion in todays fight is the Ork.\n" +
+                        message.PrintConsoleMessageColor($"The fight between the Ork and Troll ended and our champion in todays fight is the Ork.\n" +
                             $"The fight took {rounds} rounds and ended with the following healthpoints:\n\n" +
                             $@"
 |------------------------| ---------
@@ -830,7 +833,7 @@ namespace Monsterkampfsimulator
                     }
                     else if (rounds >= 100)
                     {
-                        Messages.PrintConsoleMessageColor($"The fight between the Ork and Troll took to long and ended in a draw.\n" +
+                        message.PrintConsoleMessageColor($"The fight between the Ork and Troll took to long and ended in a draw.\n" +
                             $"The fight took {rounds} rounds and ended with the following healthpoints:\n\n" +
                             $@"
 |------------------------| ---------
@@ -849,18 +852,18 @@ namespace Monsterkampfsimulator
                             case 0:
                                 Troll.Attack(Ork);
                                 whoAttacks += 1;
-                                Sound.PlayRandomAttackSound();
-                                Messages.PrintConsoleMessageColor($"Round {rounds}:");
-                                Messages.PrintTrollMessageColor("The Troll attacks!!");
-                                Messages.PrintConsoleMessageColor($"The Ork's life: {Ork.Lifepoints}\nThe Troll's life: {Troll.Lifepoints}\n--------------------\n");
+                                sound.PlayRandomAttackSound();
+                                message.PrintConsoleMessageColor($"Round {rounds}:");
+                                message.PrintTrollMessageColor("The Troll attacks!!");
+                                message.PrintConsoleMessageColor($"The Ork's life: {Ork.Lifepoints}\nThe Troll's life: {Troll.Lifepoints}\n--------------------\n");
                                 break;
                             case 1:
                                 Ork.Attack(Troll);
                                 whoAttacks -= 1;
-                                Sound.PlayRandomAttackSound();
-                                Messages.PrintConsoleMessageColor($"Round {rounds}:");
-                                Messages.PrintOrkMessageColor("The Ork attacks!!");
-                                Messages.PrintConsoleMessageColor($"The Ork's life: {Ork.Lifepoints}\nThe Troll's life: {Troll.Lifepoints}\n--------------------\n");
+                                sound.PlayRandomAttackSound();
+                                message.PrintConsoleMessageColor($"Round {rounds}:");
+                                message.PrintOrkMessageColor("The Ork attacks!!");
+                                message.PrintConsoleMessageColor($"The Ork's life: {Ork.Lifepoints}\nThe Troll's life: {Troll.Lifepoints}\n--------------------\n");
                                 break;
                             default:
                                 break;
@@ -868,11 +871,11 @@ namespace Monsterkampfsimulator
                         Thread.Sleep(waitTime);
                     }
 
-                    Messages.FightEndMessage();
+                    message.FightEndMessage();
 
                     if (Ork.Lifepoints <= 0)
                     {
-                        Messages.PrintConsoleMessageColor($"The fight between the Ork and Troll ended and our champion in todays fight is the Troll.\n" +
+                        message.PrintConsoleMessageColor($"The fight between the Ork and Troll ended and our champion in todays fight is the Troll.\n" +
                             $"The fight took {rounds} rounds and ended with the following healthpoints:\n\n" +
                             $@"
 |------------------------| ---------
@@ -881,7 +884,7 @@ namespace Monsterkampfsimulator
                     }
                     else if (Troll.Lifepoints <= 0)
                     {
-                        Messages.PrintConsoleMessageColor($"The fight between the Ork and Troll ended and our champion in todays fight is the Ork.\n" +
+                        message.PrintConsoleMessageColor($"The fight between the Ork and Troll ended and our champion in todays fight is the Ork.\n" +
                             $"The fight took {rounds} rounds and ended with the following healthpoints:\n\n" +
                             $@"
 |------------------------| ---------
@@ -890,7 +893,7 @@ namespace Monsterkampfsimulator
                     }
                     else if (rounds >= 100)
                     {
-                        Messages.PrintConsoleMessageColor($"The fight between the Ork and Troll took to long and ended in a draw.\n" +
+                        message.PrintConsoleMessageColor($"The fight between the Ork and Troll took to long and ended in a draw.\n" +
                             $"The fight took {rounds} rounds and ended with the following healthpoints:\n\n" +
                             $@"
 |------------------------| ---------
@@ -911,18 +914,18 @@ namespace Monsterkampfsimulator
                             case 0:
                                 Ork.Attack(Goblin);
                                 whoAttacks += 1;
-                                Sound.PlayRandomAttackSound();
-                                Messages.PrintConsoleMessageColor($"Round {rounds}:");
-                                Messages.PrintOrkMessageColor("The Ork attacks!!");
-                                Messages.PrintConsoleMessageColor($"The Ork's life: {Ork.Lifepoints}\nThe Goblin's life: {Goblin.Lifepoints}\n--------------------\n");
+                                sound.PlayRandomAttackSound();
+                                message.PrintConsoleMessageColor($"Round {rounds}:");
+                                message.PrintOrkMessageColor("The Ork attacks!!");
+                                message.PrintConsoleMessageColor($"The Ork's life: {Ork.Lifepoints}\nThe Goblin's life: {Goblin.Lifepoints}\n--------------------\n");
                                 break;
                             case 1:
                                 Goblin.Attack(Ork);
                                 whoAttacks -= 1;
-                                Sound.PlayRandomAttackSound();
-                                Messages.PrintConsoleMessageColor($"Round {rounds}:");
-                                Messages.PrintGoblinMessageColor("The Goblin attacks!!");
-                                Messages.PrintConsoleMessageColor($"The Ork's life: {Ork.Lifepoints}\nThe Goblin's life: {Goblin.Lifepoints}\n--------------------\n");
+                                sound.PlayRandomAttackSound();
+                                message.PrintConsoleMessageColor($"Round {rounds}:");
+                                message.PrintGoblinMessageColor("The Goblin attacks!!");
+                                message.PrintConsoleMessageColor($"The Ork's life: {Ork.Lifepoints}\nThe Goblin's life: {Goblin.Lifepoints}\n--------------------\n");
                                 break;
                             default:
                                 break;
@@ -930,11 +933,11 @@ namespace Monsterkampfsimulator
                         Thread.Sleep(waitTime);
                     }
 
-                    Messages.FightEndMessage();
+                    message.FightEndMessage();
 
                     if (Ork.Lifepoints <= 0)
                     {
-                        Messages.PrintConsoleMessageColor($"The fight between the Ork and Goblin ended and our champion in todays fight is the Goblin.\n" +
+                        message.PrintConsoleMessageColor($"The fight between the Ork and Goblin ended and our champion in todays fight is the Goblin.\n" +
                             $"The fight took {rounds} rounds and ended with the following healthpoints:\n\n" +
                             $@"
 |------------------------| ---------
@@ -943,7 +946,7 @@ namespace Monsterkampfsimulator
                     }
                     else if (Goblin.Lifepoints <= 0)
                     {
-                        Messages.PrintConsoleMessageColor($"The fight between the Ork and Goblin ended and our champion in todays fight is the Ork.\n" +
+                        message.PrintConsoleMessageColor($"The fight between the Ork and Goblin ended and our champion in todays fight is the Ork.\n" +
                             $"The fight took {rounds} rounds and ended with the following healthpoints:\n\n" +
                             $@"
 |------------------------| ---------
@@ -952,7 +955,7 @@ namespace Monsterkampfsimulator
                     }
                     else if (rounds >= 100)
                     {
-                        Messages.PrintConsoleMessageColor($"The fight between the Ork and Goblin took to long and ended in a draw.\n" +
+                        message.PrintConsoleMessageColor($"The fight between the Ork and Goblin took to long and ended in a draw.\n" +
                             $"The fight took {rounds} rounds and ended with the following healthpoints:\n\n" +
                             $@"
 |------------------------| ---------
@@ -970,18 +973,18 @@ namespace Monsterkampfsimulator
                             case 0:
                                 Goblin.Attack(Ork);
                                 whoAttacks += 1;
-                                Sound.PlayRandomAttackSound();
-                                Messages.PrintConsoleMessageColor($"Round {rounds}:");
-                                Messages.PrintGoblinMessageColor("The Goblin attacks!!");
-                                Messages.PrintConsoleMessageColor($"The Ork's life: {Ork.Lifepoints}\nThe Goblin's life: {Goblin.Lifepoints}\n--------------------\n");
+                                sound.PlayRandomAttackSound();
+                                message.PrintConsoleMessageColor($"Round {rounds}:");
+                                message.PrintGoblinMessageColor("The Goblin attacks!!");
+                                message.PrintConsoleMessageColor($"The Ork's life: {Ork.Lifepoints}\nThe Goblin's life: {Goblin.Lifepoints}\n--------------------\n");
                                 break;
                             case 1:
                                 Ork.Attack(Goblin);
                                 whoAttacks -= 1;
-                                Sound.PlayRandomAttackSound();
-                                Messages.PrintConsoleMessageColor($"Round {rounds}:");
-                                Messages.PrintOrkMessageColor("The Ork attacks!!");
-                                Messages.PrintConsoleMessageColor($"The Ork's life: {Ork.Lifepoints}\nThe Goblin's life: {Goblin.Lifepoints}\n--------------------\n");
+                                sound.PlayRandomAttackSound();
+                                message.PrintConsoleMessageColor($"Round {rounds}:");
+                                message.PrintOrkMessageColor("The Ork attacks!!");
+                                message.PrintConsoleMessageColor($"The Ork's life: {Ork.Lifepoints}\nThe Goblin's life: {Goblin.Lifepoints}\n--------------------\n");
                                 break;
                             default:
                                 break;
@@ -989,11 +992,11 @@ namespace Monsterkampfsimulator
                         Thread.Sleep(waitTime);
                     }
 
-                    Messages.FightEndMessage();
+                    message.FightEndMessage();
   
                     if (Ork.Lifepoints <= 0)
                     {
-                        Messages.PrintConsoleMessageColor($"The fight between the Ork and Goblin ended and our champion in todays fight is the Goblin.\n" +
+                        message.PrintConsoleMessageColor($"The fight between the Ork and Goblin ended and our champion in todays fight is the Goblin.\n" +
                             $"The fight took {rounds} rounds and ended with the following healthpoints:\n\n" +
                             $@"
 |------------------------| ---------
@@ -1002,7 +1005,7 @@ namespace Monsterkampfsimulator
                     }
                     else if (Goblin.Lifepoints <= 0)
                     {
-                        Messages.PrintConsoleMessageColor($"The fight between the Ork and Goblin ended and our champion in todays fight is the Ork.\n" +
+                        message.PrintConsoleMessageColor($"The fight between the Ork and Goblin ended and our champion in todays fight is the Ork.\n" +
                             $"The fight took {rounds} rounds and ended with the following healthpoints:\n\n" +
                             $@"
 |------------------------| ---------
@@ -1011,7 +1014,7 @@ namespace Monsterkampfsimulator
                     }
                     else if (rounds >= 100)
                     {
-                        Messages.PrintConsoleMessageColor($"The fight between the Ork and Goblin took to long and ended in a draw.\n" +
+                        message.PrintConsoleMessageColor($"The fight between the Ork and Goblin took to long and ended in a draw.\n" +
                             $"The fight took {rounds} rounds and ended with the following healthpoints:\n\n" +
                             $@"
 |------------------------| ---------
@@ -1032,18 +1035,18 @@ namespace Monsterkampfsimulator
                             case 0:
                                 Goblin.Attack(Troll);
                                 whoAttacks += 1;
-                                Sound.PlayRandomAttackSound();
-                                Messages.PrintConsoleMessageColor($"Round {rounds}:");
-                                Messages.PrintGoblinMessageColor("The Goblin attacks!!");
-                                Messages.PrintConsoleMessageColor($"The Troll's life: {Troll.Lifepoints}\nThe Goblin's life: {Goblin.Lifepoints}\n--------------------\n");
+                                sound.PlayRandomAttackSound();
+                                message.PrintConsoleMessageColor($"Round {rounds}:");
+                                message.PrintGoblinMessageColor("The Goblin attacks!!");
+                                message.PrintConsoleMessageColor($"The Troll's life: {Troll.Lifepoints}\nThe Goblin's life: {Goblin.Lifepoints}\n--------------------\n");
                                 break;
                             case 1:
                                 Troll.Attack(Goblin);
                                 whoAttacks -= 1;
-                                Sound.PlayRandomAttackSound();
-                                Messages.PrintConsoleMessageColor($"Round {rounds}:");
-                                Messages.PrintTrollMessageColor("The Troll attacks!!");
-                                Messages.PrintConsoleMessageColor($"The Troll's life: {Troll.Lifepoints}\nThe Goblin's life: {Goblin.Lifepoints}\n--------------------\n");
+                                sound.PlayRandomAttackSound();
+                                message.PrintConsoleMessageColor($"Round {rounds}:");
+                                message.PrintTrollMessageColor("The Troll attacks!!");
+                                message.PrintConsoleMessageColor($"The Troll's life: {Troll.Lifepoints}\nThe Goblin's life: {Goblin.Lifepoints}\n--------------------\n");
                                 break;
                             default:
                                 break;
@@ -1051,11 +1054,11 @@ namespace Monsterkampfsimulator
                         Thread.Sleep(waitTime);
                     }
 
-                    Messages.FightEndMessage();
+                    message.FightEndMessage();
 
                     if (Troll.Lifepoints <= 0)
                     {
-                        Messages.PrintConsoleMessageColor($"The fight between the Troll and Goblin ended and our champion in todays fight is the Goblin.\n" +
+                        message.PrintConsoleMessageColor($"The fight between the Troll and Goblin ended and our champion in todays fight is the Goblin.\n" +
                             $"The fight took {rounds} rounds and ended with the following healthpoints:\n\n" +
                             $@"
 |------------------------| ---------
@@ -1064,7 +1067,7 @@ namespace Monsterkampfsimulator
                     }
                     else if (Goblin.Lifepoints <= 0)
                     {
-                        Messages.PrintConsoleMessageColor($"The fight between the Troll and Goblin ended and our champion in todays fight is the Troll.\n" +
+                        message.PrintConsoleMessageColor($"The fight between the Troll and Goblin ended and our champion in todays fight is the Troll.\n" +
                             $"The fight took {rounds} rounds and ended with the following healthpoints:\n\n" +
                             $@"
 |------------------------| ---------
@@ -1073,7 +1076,7 @@ namespace Monsterkampfsimulator
                     }
                     else if (rounds >= 100)
                     {
-                        Messages.PrintConsoleMessageColor($"The fight between the Troll and Goblin took to long and ended in a draw.\n" +
+                        message.PrintConsoleMessageColor($"The fight between the Troll and Goblin took to long and ended in a draw.\n" +
                             $"The fight took {rounds} rounds and ended with the following healthpoints:\n\n" +
                             $@"
 |------------------------| ---------
@@ -1091,18 +1094,18 @@ namespace Monsterkampfsimulator
                             case 0:
                                 Troll.Attack(Goblin);
                                 whoAttacks += 1;
-                                Sound.PlayRandomAttackSound();
-                                Messages.PrintConsoleMessageColor($"Round {rounds}:");
-                                Messages.PrintTrollMessageColor("The Troll attacks!!");
-                                Messages.PrintConsoleMessageColor($"The Troll's life: {Troll.Lifepoints}\nThe Goblin's life: {Goblin.Lifepoints}\n--------------------\n");
+                                sound.PlayRandomAttackSound();
+                                message.PrintConsoleMessageColor($"Round {rounds}:");
+                                message.PrintTrollMessageColor("The Troll attacks!!");
+                                message.PrintConsoleMessageColor($"The Troll's life: {Troll.Lifepoints}\nThe Goblin's life: {Goblin.Lifepoints}\n--------------------\n");
                                 break;
                             case 1:
                                 Goblin.Attack(Troll);
                                 whoAttacks -= 1;
-                                Sound.PlayRandomAttackSound();
-                                Messages.PrintConsoleMessageColor($"Round {rounds}:");
-                                Messages.PrintGoblinMessageColor("The Goblin attacks!!");
-                                Messages.PrintConsoleMessageColor($"The Troll's life: {Troll.Lifepoints}\nThe Goblin's life: {Goblin.Lifepoints}\n--------------------\n");
+                                sound.PlayRandomAttackSound();
+                                message.PrintConsoleMessageColor($"Round {rounds}:");
+                                message.PrintGoblinMessageColor("The Goblin attacks!!");
+                                message.PrintConsoleMessageColor($"The Troll's life: {Troll.Lifepoints}\nThe Goblin's life: {Goblin.Lifepoints}\n--------------------\n");
                                 break;
                             default:
                                 break;
@@ -1110,11 +1113,11 @@ namespace Monsterkampfsimulator
                         Thread.Sleep(waitTime);
                     }
 
-                    Messages.FightEndMessage();
+                    message.FightEndMessage();
 
                     if (Troll.Lifepoints <= 0)
                     {
-                        Messages.PrintConsoleMessageColor($"The fight between the Troll and Goblin ended and our champion in todays fight is the Goblin.\n" +
+                        message.PrintConsoleMessageColor($"The fight between the Troll and Goblin ended and our champion in todays fight is the Goblin.\n" +
                             $"The fight took {rounds} rounds and ended with the following healthpoints:\n\n" +
                             $@"
 |------------------------| ---------
@@ -1123,7 +1126,7 @@ namespace Monsterkampfsimulator
                     }
                     else if (Goblin.Lifepoints <= 0)
                     {
-                        Messages.PrintConsoleMessageColor($"The fight between the Troll and Goblin ended and our champion in todays fight is the Troll.\n" +
+                        message.PrintConsoleMessageColor($"The fight between the Troll and Goblin ended and our champion in todays fight is the Troll.\n" +
                             $"The fight took {rounds} rounds and ended with the following healthpoints:\n\n" +
                             $@"
 |------------------------| ---------
@@ -1132,7 +1135,7 @@ namespace Monsterkampfsimulator
                     }
                     else if (rounds >= 100)
                     {
-                        Messages.PrintConsoleMessageColor($"The fight between the Troll and Goblin took to long and ended in a draw.\n" +
+                        message.PrintConsoleMessageColor($"The fight between the Troll and Goblin took to long and ended in a draw.\n" +
                             $"The fight took {rounds} rounds and ended with the following healthpoints:\n\n" +
                             $@"
 |------------------------| ---------
@@ -1142,11 +1145,11 @@ namespace Monsterkampfsimulator
                 }
             }
 
-            Messages.PrintConsoleMessageColor("\nProgramm will resume in 10 seconds!!");
+            message.PrintConsoleMessageColor("\nProgramm will resume in 10 seconds!!");
         }
 
         /** Clearing all stats if a user decides to play another round **/
-        public static void ClearAllStats()
+        public void ClearAllStats()
         {
             // Resetting Ork stats for a new game
             Ork.Lifepoints = 0;
@@ -1174,11 +1177,11 @@ namespace Monsterkampfsimulator
         }
 
         /** Checking if the user wishes to play again or end the programm **/
-        public static void PlayAnother()
+        public void PlayAnother()
         {
             bool notChosen = true;
 
-            Messages.PrintConsoleMessageColor(@"
+            message.PrintConsoleMessageColor(@"
 ██████╗  ██████╗     ██╗   ██╗ ██████╗ ██╗   ██╗    ██╗    ██╗██╗███████╗██╗  ██╗                                   
 ██╔══██╗██╔═══██╗    ╚██╗ ██╔╝██╔═══██╗██║   ██║    ██║    ██║██║██╔════╝██║  ██║                                   
 ██║  ██║██║   ██║     ╚████╔╝ ██║   ██║██║   ██║    ██║ █╗ ██║██║███████╗███████║                                   
@@ -1216,7 +1219,7 @@ namespace Monsterkampfsimulator
 
             do
             {
-                string userm = Messages.UserInputMessage();
+                string userm = message.UserInputMessage();
                 switch (userm.ToLower())
                 {
                     case "yes":
@@ -1233,7 +1236,7 @@ namespace Monsterkampfsimulator
                         Environment.Exit(0);
                         break;
                     default:
-                        Messages.PrintErrorColor("\nMake sure to answer the question with a Yes/y or No/n!\n--------------------------");
+                        message.PrintErrorColor("\nMake sure to answer the question with a Yes/y or No/n!\n--------------------------");
                         break;
                 }
             } while (notChosen);

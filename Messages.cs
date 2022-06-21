@@ -5,13 +5,15 @@ using System.Text;
 
 namespace Monsterkampfsimulator
 {
-    static class Messages
+    class Messages
     {
         // Variable used for the color of the user input
-        public static ConsoleColor green = ConsoleColor.Green;
+        public ConsoleColor green = ConsoleColor.Green;
+
+        FightLogic fightLogic = new FightLogic();
 
         /** Writes messages in red **/
-        public static void PrintErrorColor(string Input, ConsoleColor cc = ConsoleColor.Red)
+        public void PrintErrorColor(string Input, ConsoleColor cc = ConsoleColor.Red)
         {
             Console.ForegroundColor = cc;
             Console.WriteLine(Input);
@@ -19,7 +21,7 @@ namespace Monsterkampfsimulator
         }
 
         /** Writes messages in DarkMagenta **/
-        public static void PrintConsoleMessageColor(string Input, ConsoleColor cc = ConsoleColor.DarkMagenta)
+        public void PrintConsoleMessageColor(string Input, ConsoleColor cc = ConsoleColor.DarkMagenta)
         {
             Console.ForegroundColor = cc;
             Console.WriteLine(Input);
@@ -27,7 +29,7 @@ namespace Monsterkampfsimulator
         }
 
         /** Writes messages in Yellow **/
-        public static void PrintOrkMessageColor(string Input, ConsoleColor cc = ConsoleColor.Yellow)
+        public void PrintOrkMessageColor(string Input, ConsoleColor cc = ConsoleColor.Yellow)
         {
             Console.ForegroundColor = cc;
             Console.WriteLine(Input);
@@ -35,7 +37,7 @@ namespace Monsterkampfsimulator
         }
 
         /** Writes messages in DarkGreen **/
-        public static void PrintTrollMessageColor(string Input, ConsoleColor cc = ConsoleColor.DarkGreen)
+        public void PrintTrollMessageColor(string Input, ConsoleColor cc = ConsoleColor.DarkGreen)
         {
             Console.ForegroundColor = cc;
             Console.WriteLine(Input);
@@ -43,14 +45,14 @@ namespace Monsterkampfsimulator
         }
 
         /** Writes messages in DarkCyan **/
-        public static void PrintGoblinMessageColor(string Input, ConsoleColor cc = ConsoleColor.DarkCyan)
+        public void PrintGoblinMessageColor(string Input, ConsoleColor cc = ConsoleColor.DarkCyan)
         {
             Console.ForegroundColor = cc;
             Console.WriteLine(Input);
             Console.ResetColor();
         }
 
-        public static string UserInputMessage(ConsoleColor cc = ConsoleColor.Green)
+        public string UserInputMessage(ConsoleColor cc = ConsoleColor.Green)
         {
             string input;
             Console.ForegroundColor = cc;
@@ -60,7 +62,7 @@ namespace Monsterkampfsimulator
         }
 
         /** Starting with setting the console size if possible, writing a text and looping the main song **/
-        public static void WelcomeMessage(SoundPlayer MenuStartSound)
+        public void WelcomeMessage(SoundPlayer MenuStartSound)
         {
             try
             {
@@ -101,7 +103,7 @@ namespace Monsterkampfsimulator
         }
 
         /** While loop which ends as soon as we get the correct input **/
-        public static void WaitingForSKey()
+        public void WaitingForSKey()
         {
             while (true)
             {
@@ -115,7 +117,7 @@ namespace Monsterkampfsimulator
         }
 
         /** ASCII messages for the first display of fighters **/
-        public static void DisplayFightersOne()
+        public void DisplayFightersOne()
         {
             PrintConsoleMessageColor(@"
 ██     ██ ██   ██ ██  ██████ ██   ██                                                                                                       
@@ -171,7 +173,7 @@ namespace Monsterkampfsimulator
         }
 
         /** Explanation message for the attributes and how we collect them **/
-        public static void ExplanationMessage()
+        public void ExplanationMessage()
         {
             PrintConsoleMessageColor($"\nNow we need your help! Each of our fighters has different attributes which we need YOU to set for us.\n" +
                 $"Those attributes are the following:\n" +
@@ -180,27 +182,27 @@ namespace Monsterkampfsimulator
                 $"3. Defensepoints\n" +
                 $"4. Speed\n" +
                 $"----------------\n" +
-                $"We will ask for each attribute seperately from 1 to 4 and start with your first picked fighter the {FightLogic.FighterOne}.\n");
+                $"We will ask for each attribute seperately from 1 to 4 and start with your first picked fighter the {fightLogic.FighterOne}.\n");
         }
 
         /** Transition message between the collection of the attributes of both fighters **/
-        public static void TransitionMessage()
+        public void TransitionMessage()
         {
-            PrintConsoleMessageColor($"\n\nGreat! The {FightLogic.FighterOne} now has stats for each of their attributes.\n" +
+            PrintConsoleMessageColor($"\n\nGreat! The {fightLogic.FighterOne} now has stats for each of their attributes.\n" +
                 $"----------------\n" +
-                $"We will now proceed with the stats for our 2nd fighter the {FightLogic.FighterTwo}.\n" +
+                $"We will now proceed with the stats for our 2nd fighter the {fightLogic.FighterTwo}.\n" +
                 $"----------------\n");
         }
 
         /** Message ending the attribute collection and telling the user to press any button to start the fight **/
-        public static void AttributeEndMessage()
+        public void AttributeEndMessage()
         {
-            Messages.PrintConsoleMessageColor($"\nAmazing! Now that both our fighters the {FightLogic.FighterOne} and {FightLogic.FighterTwo} are ready to start their battle please give us the start signal " +
+            PrintConsoleMessageColor($"\nAmazing! Now that both our fighters the {fightLogic.FighterOne} and {fightLogic.FighterTwo} are ready to start their battle please give us the start signal " +
                 $"by pressing any BUTTON on your keyboard!!\n");
         }
 
         /** ASCII Art and sound for the start of the fight **/
-        public static void StartFightMessageAndSound(SoundPlayer FightStartSound)
+        public void StartFightMessageAndSound(SoundPlayer FightStartSound)
         {
             FightStartSound.LoadAsync();
             FightStartSound.PlaySync();
@@ -214,7 +216,7 @@ namespace Monsterkampfsimulator
         }
 
         /** Gives out the message which is shown after a fight ended **/
-        public static void FightEndMessage()
+        public void FightEndMessage()
         {
             PrintConsoleMessageColor(@"
 ███████╗██╗ ██████╗ ██╗  ██╗████████╗    ███████╗███╗   ██╗██████╗ ███████╗██████╗ 
@@ -227,7 +229,7 @@ namespace Monsterkampfsimulator
         }
 
         /** Contains the credits to all the content used by 3rd parties **/
-        public static void Credits()
+        public void Credits()
         {
             Console.WriteLine("\n\n\n\n\n");
             PrintConsoleMessageColor(@"
