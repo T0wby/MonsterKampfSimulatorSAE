@@ -68,7 +68,7 @@
                 fightLogic.StartFight();
 
                 // Playing our end sound.
-                //sound.PlayEndSound();
+                sound.PlayEndSound();
 
                 // Delay to Display end screen before we proceed with credits and PlayAnother().
                 Thread.Sleep(10000);

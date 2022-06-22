@@ -447,7 +447,7 @@ namespace Monsterkampfsimulator
                         case 0:
                             chosenFighters[0].Attack(chosenFighters[1]);
                             whoAttacks += 1;
-                            //sound.PlayRandomAttackSound();
+                            sound.PlayRandomAttackSound();
                             message.PrintConsoleMessageColor($"Round {rounds}:");
                             message.PrintOrkMessageColor($"The {chosenFighters[0].Name} attacks!!");
                             message.PrintConsoleMessageColor($"The {chosenFighters[0].Name}'s life: {chosenFighters[0].Lifepoints}\nThe {chosenFighters[1].Name}'s life: {chosenFighters[1].Lifepoints}\n--------------------\n");
@@ -455,7 +455,7 @@ namespace Monsterkampfsimulator
                         case 1:
                             chosenFighters[1].Attack(chosenFighters[0]);
                             whoAttacks -= 1;
-                            //sound.PlayRandomAttackSound();
+                            sound.PlayRandomAttackSound();
                             message.PrintConsoleMessageColor($"Round {rounds}:");
                             message.PrintTrollMessageColor($"The {chosenFighters[1].Name} attacks!!");
                             message.PrintConsoleMessageColor($"The {chosenFighters[0].Name}'s life: {chosenFighters[0].Lifepoints}\nThe {chosenFighters[1].Name}'s life: {chosenFighters[1].Lifepoints}\n--------------------\n");
@@ -479,7 +479,7 @@ namespace Monsterkampfsimulator
                         case 0:
                             chosenFighters[1].Attack(chosenFighters[0]);
                             whoAttacks += 1;
-                            //sound.PlayRandomAttackSound();
+                            sound.PlayRandomAttackSound();
                             message.PrintConsoleMessageColor($"Round {rounds}:");
                             message.PrintTrollMessageColor($"The {chosenFighters[1].Name} attacks!!");
                             message.PrintConsoleMessageColor($"The {chosenFighters[0].Name}'s life: {chosenFighters[0].Lifepoints}\nThe {chosenFighters[1].Name}'s life: {chosenFighters[1].Lifepoints}\n--------------------\n");
@@ -487,7 +487,7 @@ namespace Monsterkampfsimulator
                         case 1:
                             chosenFighters[0].Attack(chosenFighters[1]);
                             whoAttacks -= 1;
-                            //sound.PlayRandomAttackSound();
+                            sound.PlayRandomAttackSound();
                             message.PrintConsoleMessageColor($"Round {rounds}:");
                             message.PrintOrkMessageColor($"The {chosenFighters[0].Name} attacks!!");
                             message.PrintConsoleMessageColor($"The {chosenFighters[0].Name}'s life: {chosenFighters[0].Lifepoints}\nThe {chosenFighters[1].Name}'s life: {chosenFighters[1].Lifepoints}\n--------------------\n");

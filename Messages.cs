@@ -96,8 +96,8 @@ namespace Monsterkampfsimulator
                         \__|\___/  |___/ \__|\__,_||_|    \__|  \__||_| |_| \___|  \__, | \__,_||_| |_| |_| \___|
                                                                                    |___/                         ");
 
-            //MenuStartSound.LoadAsync();
-            //MenuStartSound.PlayLooping();
+            MenuStartSound.LoadAsync();
+            MenuStartSound.PlayLooping();
         }
 
         /** While loop which ends as soon as we get the correct input **/
@@ -188,11 +188,11 @@ namespace Monsterkampfsimulator
         /** ASCII Art and sound for the start of the fight **/
         public void StartFightMessageAndSound(SoundPlayer FightStartSound)
         {
-            //if (FightStartSound != null)
-            //{
-            //    FightStartSound.LoadAsync();
-            //    FightStartSound.PlaySync();
-            //}
+            if (FightStartSound != null)
+            {
+                FightStartSound.LoadAsync();
+                FightStartSound.PlaySync();
+            }
             
             PrintConsoleMessageColor(@"
   _____  _         _      _    _  _ 
