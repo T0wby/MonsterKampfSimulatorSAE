@@ -8,11 +8,11 @@ namespace Monsterkampfsimulator
     class FightLogic
     {
         // Strings used for the user input
-        private string? race1;
-        private string? race2;
+        private string? race;
 
         // Int used to keep track of how many rounds our fighters fought
         private int rounds = 0;
+        private int fighterAmount = 2;
         // Int used to switch between who of the fighters attack in the given round
         private int whoAttacks = 0;
         // Used to delay each round in our fight
@@ -39,16 +39,13 @@ namespace Monsterkampfsimulator
         private List<Monster> allAvailableFighters = new List<Monster>();
         private List<Monster> chosenFighters = new List<Monster>();
 
-        Sound sound = new Sound();
-        Messages message = new Messages();
 
-        /** Get methode for race1 **/
+        #region Properties
         public string FighterOne
         {
             get { return chosenFighters[0].Name; }
         }
 
-        /** Get methode for race2 **/
         public string FighterTwo
         {
             get { return chosenFighters[1].Name; }
@@ -58,363 +55,138 @@ namespace Monsterkampfsimulator
         {
             get { return chosenFighters; }
         }
+        #endregion
 
-        /** Asking user for the first fighter **/
-        public void GetFighterOneInput()
+        /// <summary>
+        /// Asking the user for our fighters
+        /// </summary>
+        public void GetFighter()
         {
             allAvailableFighters.Add(ork);
             allAvailableFighters.Add(troll);
             allAvailableFighters.Add(goblin);
 
-            message.PrintConsoleMessageColor("Who will be our first Fighter?\n\n");
-
-            message.DisplayAllAvailableFighters(allAvailableFighters);
-
-            // Doing a do-while loop in order to redo the action until we have a valid input
-            do
+            for (int i = 0; i < fighterAmount; i++)
             {
-                race1 = message.UserInputMessage();
-                // Switch case in order to set attributes for our first fighter and setting the string to all lower cases to ignore case sensitivity
-                switch (race1.ToLower())
+                Messages.PrintConsoleMessageColor($"Who will be fighter number {i + 1} from {fighterAmount}?\n\n");
+                Messages.DisplayAllAvailableFighters(allAvailableFighters);
+
+                do
                 {
-                    case "1":
-                    case "ork":
-                        if (race1.ToLower() == "1")
-                            race1 = "Ork";
-                        ork.Chosen = true;
-                        chosenFighters.Add(ork);
-                        bNotMatching = false;
-                        break;
-                    case "2":
-                    case "troll":
-                        if (race1.ToLower() == "2")
-                            race1 = "Troll";
-                        troll.Chosen = true;
-                        chosenFighters.Add(troll);
-                        bNotMatching = false;
-                        break;
-                    case "3":
-                    case "goblin":
-                        if (race1.ToLower() == "3")
-                            race1 = "Goblin";
-                        goblin.Chosen = true;
-                        chosenFighters.Add(goblin);
-                        bNotMatching = false;
-                        break;
-                    default:
-                        bNotMatching = true;
-                        message.PrintErrorColor("Please make sure that you write the fighters names correctly!\n");
-                        break;
-                }
-            } while (bNotMatching);
+                    race = Messages.UserInputMessage();
 
-            for (int i = 0; i < allAvailableFighters.Count; i++)
-            {
-                if (race1.ToLower() == allAvailableFighters[i].Name.ToLower())
-                {
-                    allAvailableFighters.RemoveAt(i);
-                }
-            }
-            Console.WriteLine("race1: " + race1);
-        }
-
-        /** Asking user for the second fighter **/
-        public void GetFighterTwoInput()
-        {
-            do
-            {
-
-                message.PrintConsoleMessageColor("Who will be the 2nd Fighter?\n\n");
-
-                message.DisplayAllAvailableFighters(allAvailableFighters);
-
-                race2 = message.UserInputMessage();
-
-                // We check if the user selected the same race again and print a message if he did so. Otherwise we use a 2nd switch statement to create the 2nd fighter object.
-                if (race2.ToLower() == chosenFighters[0].Name.ToLower() || race2.ToLower() == chosenFighters[0].Number.ToString())
-                {
-                    message.PrintErrorColor($"{race1} was already chosen as the first fighter! Please chose one of the other two that are available\n----------------");
-                    bNotMatching = true;
-                }
-                else
-                {
-                    switch (race2.ToLower())
+                    if (i>0)
                     {
-                        case "1":
-                        case "ork":
-                            if (race2.ToLower() == "1")
-                                race1 = "Ork";
-                            ork.Chosen = true;
-                            chosenFighters.Add(ork);
-                            bNotMatching = false;
-                            break;
-                        case "2":
-                        case "troll":
-                            if (race2.ToLower() == "2")
-                                race1 = "Troll";
-                            troll.Chosen = true;
-                            chosenFighters.Add(troll);
-                            bNotMatching = false;
-                            break;
-                        case "3":
-                        case "goblin":
-                            if (race2.ToLower() == "3")
-                                race1 = "Goblin";
-                            goblin.Chosen = true;
-                            chosenFighters.Add(goblin);
-                            bNotMatching = false;
-                            break;
-                        default:
+                        if (race.ToLower() == chosenFighters[0].Name.ToLower() || race.ToLower() == chosenFighters[0].Number.ToString())
+                        {
+                            Messages.PrintErrorColor($"{race} was already chosen as the first fighter! Please chose one of the other two that are available\n----------------");
                             bNotMatching = true;
-                            message.PrintErrorColor("Please make sure that you write the fighters names correctly!\n");
-                            break;
+                        }
+                        else
+                        {
+                            SetFighter();
+                        }
+                    }
+                    else
+                    {
+                        SetFighter();
+                    }
+                } while (bNotMatching);
+
+                for (int j = 0; j < allAvailableFighters.Count; j++)
+                {
+                    if (race.ToLower() == allAvailableFighters[j].Name.ToLower())
+                    {
+                        allAvailableFighters.RemoveAt(j);
                     }
                 }
-
-            } while (bNotMatching);
+                Console.WriteLine($"\nFighter number {i + 1} is: {race}");
+            }
         }
+
+        /// <summary>
+        /// Switch case in order to set our active fighters and setting the string to all lower cases to ignore case sensitivity
+        /// </summary>
+        private void SetFighter()
+        {
+            switch (race.ToLower())
+            {
+                case "1":
+                case "ork":
+                    if (race.ToLower() == "1")
+                        race = "Ork";
+                    ork.Chosen = true;
+                    chosenFighters.Add(ork);
+                    bNotMatching = false;
+                    break;
+                case "2":
+                case "troll":
+                    if (race.ToLower() == "2")
+                        race = "Troll";
+                    troll.Chosen = true;
+                    chosenFighters.Add(troll);
+                    bNotMatching = false;
+                    break;
+                case "3":
+                case "goblin":
+                    if (race.ToLower() == "3")
+                        race = "Goblin";
+                    goblin.Chosen = true;
+                    chosenFighters.Add(goblin);
+                    bNotMatching = false;
+                    break;
+                default:
+                    bNotMatching = true;
+                    Messages.PrintErrorColor("Please make sure that you write the fighters names correctly!\n");
+                    break;
+            }
+        }
+
 
         /** Function to collect the stats of the 1st fighter **/
-        public void GetFighterOneStats()
+        public void GetFighterStats()
         {
-            // Created a bool for the do while loops
-            bool bNegativeValue;
-            float result;
 
-            do
+            for (int i = 0; i < fighterAmount; i++)
             {
                 // Asking for the Health value
-                message.PrintConsoleMessageColor($"Please give the {chosenFighters[0].Name} a positive Health value:");
+                Messages.PrintConsoleMessageColor($"\nPlease give the {chosenFighters[i].Name} a positive Health value:");
 
-                Console.ForegroundColor = message.green;
                 // Due to Console.ReadLine() returning a string value we parse it into the required float value with float.TryParse() and also check if any other value than a numeric one was used
-                if (float.TryParse(Console.ReadLine(), out result))
-                {
-                    lifepointsOne = result;
-                }
-                else
-                {
-                    message.PrintErrorColor("\nMake sure to only enter a numeric value!\n--------------------------");
-                }
-                Console.ResetColor();
+                chosenFighters[i].Lifepoints = Messages.UserInputFloat();
 
-                // Checking that the entered value is positive
-                if (lifepointsOne > 0)
-                {
-                    bNegativeValue = false;
-                    chosenFighters[0].Lifepoints = lifepointsOne;
-                }
-                else
-                {
-                    message.PrintErrorColor("Please make sure to only enter positive values!");
-                    bNegativeValue = true;
-                }
-            } while (bNegativeValue);
 
-            do
-            {
                 // Asking for the Attackpower value
-                message.PrintConsoleMessageColor($"Please give the {chosenFighters[0].Name} a positive Attackpower value:");
-                Console.ForegroundColor = message.green;
-                // Due to Console.ReadLine() returning a string value we parse it into the required float value with float.TryParse() and also check if any other value than a numeric one was used
-                if (float.TryParse(Console.ReadLine(), out result))
-                {
-                    attackpowerOne = result;
-                }
-                else
-                {
-                    message.PrintErrorColor("\nMake sure to only enter a numeric value!\n--------------------------");
-                }
-                Console.ResetColor();
-                // Checking that the entered value is positive
-                if (attackpowerOne > 0)
-                {
-                    bNegativeValue = false;
-                    chosenFighters[0].Attackpower = attackpowerOne;
-                }
-                else
-                {
-                    message.PrintErrorColor("Please make sure to only enter positive values!");
-                    bNegativeValue = true;
-                }
-            } while (bNegativeValue);
+                Messages.PrintConsoleMessageColor($"Please give the {chosenFighters[i].Name} a positive Attackpower value:");
 
-            do
-            {
+                chosenFighters[i].Attackpower = Messages.UserInputFloat();
+
+
                 // Asking for the Defensepoint value
-                message.PrintConsoleMessageColor($"Please give the {chosenFighters[0].Name} a positive Defensepoint value:");
-                Console.ForegroundColor = message.green;
-                // Due to Console.ReadLine() returning a string value we parse it into the required float value with float.TryParse() and also check if any other value than a numeric one was used
-                if (float.TryParse(Console.ReadLine(), out result))
-                {
-                    defensepointsOne = result;
-                }
-                else
-                {
-                    message.PrintErrorColor("\nMake sure to only enter a numeric value!\n--------------------------");
-                }
-                Console.ResetColor();
-                // Checking that the entered value is positive
-                if (defensepointsOne > 0)
-                {
-                    bNegativeValue = false;
-                    chosenFighters[0].Defensepoints = defensepointsOne;
-                }
-                else
-                {
-                    message.PrintErrorColor("Please make sure to only enter positive values!");
-                    bNegativeValue = true;
-                }
-            } while (bNegativeValue);
+                Messages.PrintConsoleMessageColor($"Please give the {chosenFighters[i].Name} a positive Defensepoint value:");
 
-            do
-            {
+                chosenFighters[i].Defensepoints = Messages.UserInputFloat();
+
+
                 // Asking for the Speed value
-                message.PrintConsoleMessageColor($"Please give the {chosenFighters[0].Name} a positive Speed value:");
-                Console.ForegroundColor = message.green;
-                // Due to Console.ReadLine() returning a string value we parse it into the required float value with float.TryParse() and also check if any other value than a numeric one was used
-                if (float.TryParse(Console.ReadLine(), out result))
-                {
-                    speedOne = result;
-                }
-                else
-                {
-                    message.PrintErrorColor("\nMake sure to only enter a numeric value!\n--------------------------");
-                }
-                Console.ResetColor();
-                // Checking that the entered value is positive
-                if (speedOne > 0)
-                {
-                    bNegativeValue = false;
-                    chosenFighters[0].Speed = speedOne;
-                }
-                else
-                {
-                    message.PrintErrorColor("Please make sure to only enter positive values!");
-                    bNegativeValue = true;
-                }
-            } while (bNegativeValue);
+                Messages.PrintConsoleMessageColor($"Please give the {chosenFighters[i].Name} a positive Speed value:");
 
-        }
+                chosenFighters[i].Speed = Messages.UserInputFloat();
 
-        /** Function to collect the stats of the 2nd fighter **/
-        public void GetFighterTwoStats()
-        {
-            // Created a bool for the do while loops
-            bool bNegativeValue;
-            float result;
+                if (i<1)
+                {
+                    Console.Clear();
 
-            do
-            {
-                // Asking for the Health value
-                message.PrintConsoleMessageColor($"Please give the {chosenFighters[1].Name} a positive Health value:");
-                Console.ForegroundColor = message.green;
-                // Due to Console.ReadLine() returning a string value we parse it into the required float value with float.TryParse() and also check if any other value than a numeric one was used
-                if (float.TryParse(Console.ReadLine(), out result))
-                {
-                    lifepointsTwo = result;
+                    // Showing the selected stats for the first fighter, so that the User can compare them while setting the 2nd fighter.
+                    Messages.ShowStatsFighterOne(chosenFighters[0]);
                 }
                 else
                 {
-                    message.PrintErrorColor("\nMake sure to only enter a numeric value!\n--------------------------");
+                    // Message between the collection of the stats of both fighters.
+                    Messages.TransitionMessage(chosenFighters[0], chosenFighters[1]);
                 }
-                Console.ResetColor();
-                // Checking that the entered value is positive
-                if (lifepointsTwo > 0)
-                {
-                    bNegativeValue = false;
-                    chosenFighters[1].Lifepoints = lifepointsTwo;
-                }
-                else
-                {
-                    message.PrintErrorColor("Please make sure to only enter positive values!");
-                    bNegativeValue = true;
-                }
-            } while (bNegativeValue);
-
-            do
-            {
-                // Asking for the Attackpower value
-                message.PrintConsoleMessageColor($"Please give the {chosenFighters[1].Name} a positive Attackpower value:");
-                Console.ForegroundColor = message.green;
-                // Due to Console.ReadLine() returning a string value we parse it into the required float value with float.TryParse() and also check if any other value than a numeric one was used
-                if (float.TryParse(Console.ReadLine(), out result))
-                {
-                    attackpowerTwo = result;
-                }
-                else
-                {
-                    message.PrintErrorColor("\nMake sure to only enter a numeric value!\n--------------------------");
-                }
-                Console.ResetColor();
-                // Checking that the entered value is positive
-                if (attackpowerTwo > 0)
-                {
-                    bNegativeValue = false;
-                    chosenFighters[1].Attackpower = attackpowerTwo;
-                }
-                else
-                {
-                    message.PrintErrorColor("Please make sure to only enter positive values!");
-                    bNegativeValue = true;
-                }
-            } while (bNegativeValue);
-
-            do
-            {
-                // Asking for the Defensepoint value
-                message.PrintConsoleMessageColor($"Please give the {chosenFighters[1].Name} a positive Defensepoint value:");
-                Console.ForegroundColor = message.green;
-                // Due to Console.ReadLine() returning a string value we parse it into the required float value with float.TryParse() and also check if any other value than a numeric one was used
-                if (float.TryParse(Console.ReadLine(), out result))
-                {
-                    defensepointsTwo = result;
-                }
-                else
-                {
-                    message.PrintErrorColor("\nMake sure to only enter a numeric value!\n--------------------------");
-                }
-                Console.ResetColor();
-                // Checking that the entered value is positive
-                if (defensepointsTwo > 0)
-                {
-                    bNegativeValue = false;
-                    chosenFighters[1].Defensepoints = defensepointsTwo;
-                }
-                else
-                {
-                    message.PrintErrorColor("Please make sure to only enter positive values!");
-                    bNegativeValue = true;
-                }
-            } while (bNegativeValue);
-
-            do
-            {
-                // Asking for the Speed value
-                message.PrintConsoleMessageColor($"Please give the {chosenFighters[1].Name} a positive Speed value:");
-                Console.ForegroundColor = message.green;
-                // Due to Console.ReadLine() returning a string value we parse it into the required float value with float.TryParse() and also check if any other value than a numeric one was used
-                if (float.TryParse(Console.ReadLine(), out result))
-                {
-                    speedTwo = result;
-                }
-                else
-                {
-                    message.PrintErrorColor("\nMake sure to only enter a numeric value!\n--------------------------");
-                }
-                Console.ResetColor();
-                // Checking that the entered value is positive and doesn't match the first speed value
-                if (speedTwo > 0 && speedTwo != speedOne)
-                {
-                    bNegativeValue = false;
-                    chosenFighters[1].Speed = speedTwo;
-                }
-                else
-                {
-                    message.PrintErrorColor("Please make sure to only enter positive values and not the same value as you did for the first fighter!");
-                    bNegativeValue = true;
-                }
-            } while (bNegativeValue);
+            }
+            
         }
 
         /** Comparing speeds and setting the start boolean for the fight **/
@@ -432,7 +204,7 @@ namespace Monsterkampfsimulator
         }
 
         /** Starting the fight and ending it when either fighter has no health left or the fight took more than 100 rounds **/
-        public void StartFight()
+        public void StartFight(Sound sound)
         {
 
             if (chosenFighters[0].StartFight)
@@ -448,17 +220,17 @@ namespace Monsterkampfsimulator
                             chosenFighters[0].Attack(chosenFighters[1]);
                             whoAttacks += 1;
                             sound.PlayRandomAttackSound();
-                            message.PrintConsoleMessageColor($"Round {rounds}:");
-                            message.PrintOrkMessageColor($"The {chosenFighters[0].Name} attacks!!");
-                            message.PrintConsoleMessageColor($"The {chosenFighters[0].Name}'s life: {chosenFighters[0].Lifepoints}\nThe {chosenFighters[1].Name}'s life: {chosenFighters[1].Lifepoints}\n--------------------\n");
+                            Messages.PrintConsoleMessageColor($"Round {rounds}:");
+                            Messages.PrintYellowMessageColor($"The {chosenFighters[0].Name} attacks!!");
+                            Messages.PrintConsoleMessageColor($"The {chosenFighters[0].Name}'s life: {chosenFighters[0].Lifepoints}\nThe {chosenFighters[1].Name}'s life: {chosenFighters[1].Lifepoints}\n--------------------\n");
                             break;
                         case 1:
                             chosenFighters[1].Attack(chosenFighters[0]);
                             whoAttacks -= 1;
                             sound.PlayRandomAttackSound();
-                            message.PrintConsoleMessageColor($"Round {rounds}:");
-                            message.PrintTrollMessageColor($"The {chosenFighters[1].Name} attacks!!");
-                            message.PrintConsoleMessageColor($"The {chosenFighters[0].Name}'s life: {chosenFighters[0].Lifepoints}\nThe {chosenFighters[1].Name}'s life: {chosenFighters[1].Lifepoints}\n--------------------\n");
+                            Messages.PrintConsoleMessageColor($"Round {rounds}:");
+                            Messages.PrintDarkGreenMessageColor($"The {chosenFighters[1].Name} attacks!!");
+                            Messages.PrintConsoleMessageColor($"The {chosenFighters[0].Name}'s life: {chosenFighters[0].Lifepoints}\nThe {chosenFighters[1].Name}'s life: {chosenFighters[1].Lifepoints}\n--------------------\n");
                             break;
                         default:
                             break;
@@ -466,7 +238,7 @@ namespace Monsterkampfsimulator
                     Thread.Sleep(waitTime);
                 }
 
-                message.FightEndMessage(chosenFighters[0], chosenFighters[1], rounds);
+                Messages.FightEndMessage(chosenFighters[0], chosenFighters[1], rounds);
 
             }
             else if (chosenFighters[1].StartFight)
@@ -480,17 +252,17 @@ namespace Monsterkampfsimulator
                             chosenFighters[1].Attack(chosenFighters[0]);
                             whoAttacks += 1;
                             sound.PlayRandomAttackSound();
-                            message.PrintConsoleMessageColor($"Round {rounds}:");
-                            message.PrintTrollMessageColor($"The {chosenFighters[1].Name} attacks!!");
-                            message.PrintConsoleMessageColor($"The {chosenFighters[0].Name}'s life: {chosenFighters[0].Lifepoints}\nThe {chosenFighters[1].Name}'s life: {chosenFighters[1].Lifepoints}\n--------------------\n");
+                            Messages.PrintConsoleMessageColor($"Round {rounds}:");
+                            Messages.PrintDarkGreenMessageColor($"The {chosenFighters[1].Name} attacks!!");
+                            Messages.PrintConsoleMessageColor($"The {chosenFighters[0].Name}'s life: {chosenFighters[0].Lifepoints}\nThe {chosenFighters[1].Name}'s life: {chosenFighters[1].Lifepoints}\n--------------------\n");
                             break;
                         case 1:
                             chosenFighters[0].Attack(chosenFighters[1]);
                             whoAttacks -= 1;
                             sound.PlayRandomAttackSound();
-                            message.PrintConsoleMessageColor($"Round {rounds}:");
-                            message.PrintOrkMessageColor($"The {chosenFighters[0].Name} attacks!!");
-                            message.PrintConsoleMessageColor($"The {chosenFighters[0].Name}'s life: {chosenFighters[0].Lifepoints}\nThe {chosenFighters[1].Name}'s life: {chosenFighters[1].Lifepoints}\n--------------------\n");
+                            Messages.PrintConsoleMessageColor($"Round {rounds}:");
+                            Messages.PrintYellowMessageColor($"The {chosenFighters[0].Name} attacks!!");
+                            Messages.PrintConsoleMessageColor($"The {chosenFighters[0].Name}'s life: {chosenFighters[0].Lifepoints}\nThe {chosenFighters[1].Name}'s life: {chosenFighters[1].Lifepoints}\n--------------------\n");
                             break;
                         default:
                             break;
@@ -498,10 +270,10 @@ namespace Monsterkampfsimulator
                     Thread.Sleep(waitTime);
                 }
 
-                message.FightEndMessage(chosenFighters[0], chosenFighters[1], rounds);
+                Messages.FightEndMessage(chosenFighters[0], chosenFighters[1], rounds);
             }
 
-            message.PrintConsoleMessageColor("\nProgramm will resume in 10 seconds!!");
+            Messages.PrintConsoleMessageColor("\nProgramm will resume in 10 seconds!!");
         }
 
         /** Clearing all stats if a user decides to play another round **/
@@ -528,7 +300,7 @@ namespace Monsterkampfsimulator
         {
             bool notChosen = true;
 
-            message.PrintConsoleMessageColor(@"
+            Messages.PrintConsoleMessageColor(@"
 ██████╗  ██████╗     ██╗   ██╗ ██████╗ ██╗   ██╗    ██╗    ██╗██╗███████╗██╗  ██╗                                   
 ██╔══██╗██╔═══██╗    ╚██╗ ██╔╝██╔═══██╗██║   ██║    ██║    ██║██║██╔════╝██║  ██║                                   
 ██║  ██║██║   ██║     ╚████╔╝ ██║   ██║██║   ██║    ██║ █╗ ██║██║███████╗███████║                                   
@@ -566,7 +338,7 @@ namespace Monsterkampfsimulator
 
             do
             {
-                string userm = message.UserInputMessage();
+                string userm = Messages.UserInputMessage();
                 switch (userm.ToLower())
                 {
                     case "yes":
@@ -583,7 +355,7 @@ namespace Monsterkampfsimulator
                         Environment.Exit(0);
                         break;
                     default:
-                        message.PrintErrorColor("\nMake sure to answer the question with a Yes/y or No/n!\n--------------------------");
+                        Messages.PrintErrorColor("\nMake sure to answer the question with a Yes/y or No/n!\n--------------------------");
                         break;
                 }
             } while (notChosen);
