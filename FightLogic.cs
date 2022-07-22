@@ -20,18 +20,6 @@ namespace Monsterkampfsimulator
         // Used to check that the user entered a valid input when asking for the 2 fighters
         private bool bNotMatching;
 
-        // Attributes for fighter 1
-        private float lifepointsOne = 0f;
-        private float attackpowerOne = 0f;
-        private float defensepointsOne = 0f;
-        private float speedOne = 0f;
-
-        // Attributes for fighter 2
-        private float lifepointsTwo = 0f;
-        private float attackpowerTwo = 0f;
-        private float defensepointsTwo = 0f;
-        private float speedTwo = 0f;
-
         private Ork ork = new Ork(1, "Ork");
         private Troll troll = new Troll(2, "Troll");
         private Goblin goblin = new Goblin(3, "Goblin");
