@@ -21,7 +21,9 @@ namespace Monsterkampfsimulator
         public SoundPlayer? FightEndSound;
         public SoundPlayer[]? allPunches;
 
-        /** Build all sounds used during the game **/
+        /// <summary>
+        /// Build all sounds used during the game
+        /// </summary>
         public void BuildSound()
         {
             // Building the sound players(works on windows only)
@@ -44,7 +46,9 @@ namespace Monsterkampfsimulator
             }
         }
 
-        /** Randomized attack sounds **/
+        /// <summary>
+        /// Play randomized attack sounds
+        /// </summary>
         public void PlayRandomAttackSound()
         {
             Random rnd = new Random((DateTime.Now.Second * DateTime.Now.Millisecond + DateTime.Now.Hour));
@@ -54,7 +58,9 @@ namespace Monsterkampfsimulator
             allPunches[rndNumber].Play();
         }
 
-        /** Sound which is played after the fight finished **/
+        /// <summary>
+        /// Sound which is played after the fight finished
+        /// </summary>
         public void PlayEndSound()
         {
             FightEndSound.LoadAsync();

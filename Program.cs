@@ -17,11 +17,10 @@
                 Messages.WelcomeMessage(sound.MenuStartSound);
 
                 // While loop which ends as soon as we get the correct input. Extra function to create a start menu.
-                Messages.WaitingForSKey();
+                Messages.WaitingForKey('s');
 
                 // Displaying all available fighters. Getting the User input and setting the all fighters.
                 fightLogic.GetFighter();
-
 
                 Console.Clear();
 

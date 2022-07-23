@@ -6,60 +6,65 @@ namespace Monsterkampfsimulator
 {
     abstract class Monster
     {
-        protected float lifepoints;
-        protected float attackpower;
-        protected float defensepoints;
-        protected float speed;
-        protected float number;
-        protected string name;
-        protected bool bChosen = false;
-        protected bool bStartFight = false;
+        protected float _lifepoints;
+        protected float _attackpower;
+        protected float _defensepoints;
+        protected float _speed;
+        protected float _number;
+        protected string _name;
+        protected bool _bChosen = false;
+        protected bool _bStartFight = false;
 
+        #region Properties
         /** Properties **/
         public float Lifepoints
         {
-            get { return this.lifepoints; }
-            set { this.lifepoints = value; }
+            get { return this._lifepoints; }
+            set { this._lifepoints = value; }
         }
         public float Attackpower
         {
-            get { return this.attackpower; }
-            set { this.attackpower = value; }
+            get { return this._attackpower; }
+            set { this._attackpower = value; }
         }
         public float Defensepoints
         {
-            get { return this.defensepoints; }
-            set { this.defensepoints = value; }
+            get { return this._defensepoints; }
+            set { this._defensepoints = value; }
         }
         public float Speed
         {
-            get { return this.speed; }
-            set { this.speed = value; }
+            get { return this._speed; }
+            set { this._speed = value; }
         }
 
         public float Number
         {
-            get { return this.number; }
+            get { return this._number; }
         }
 
         public string Name
         {
-            get { return this.name; }
+            get { return this._name; }
         }
 
         public bool Chosen
         {
-            get { return this.bChosen; }
-            set { this.bChosen = value; }
+            get { return this._bChosen; }
+            set { this._bChosen = value; }
         }
 
         public bool StartFight
         {
-            get { return this.bStartFight; }
-            set { this.bStartFight = value; }
+            get { return this._bStartFight; }
+            set { this._bStartFight = value; }
         }
+        #endregion
 
-        /** Attack function **/
+        /// <summary>
+        /// Deducts liefepoints from the enemy
+        /// </summary>
+        /// <param name="enemy">Target that will be attacked</param>
         public void Attack(Monster enemy)
         {
             float damage = this.Attackpower - enemy.Defensepoints;

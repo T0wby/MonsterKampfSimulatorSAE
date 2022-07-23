@@ -140,13 +140,15 @@ namespace Monsterkampfsimulator
             MenuStartSound.PlayLooping();
         }
 
-        /** While loop which ends as soon as we get the correct input **/
-        public static void WaitingForSKey()
+        /// <summary>
+        /// While loop which ends as soon as we get the correct input
+        /// </summary>
+        public static void WaitingForKey(char input)
         {
             while (true)
             {
                 ConsoleKeyInfo key = Console.ReadKey();
-                if ((key.KeyChar == 'S') || (key.KeyChar == 's'))
+                if ((key.KeyChar == input) || (key.KeyChar == input))
                 {
                     Console.Clear();
                     break;
@@ -154,7 +156,10 @@ namespace Monsterkampfsimulator
             }
         }
 
-        /**  **/
+        /// <summary>
+        /// Display all Fighters that are currently available
+        /// </summary>
+        /// <param name="allAvailableFighters">List of Monster</param>
         public static void DisplayAllAvailableFighters(List<Monster> allAvailableFighters)
         {
             for (int i = 0; i < allAvailableFighters.Count; i++)
@@ -163,7 +168,10 @@ namespace Monsterkampfsimulator
             }
         }
 
-        /** Explanation message for the attributes and how we collect them **/
+        /// <summary>
+        /// Message explaining the process of adding stats
+        /// </summary>
+        /// <param name="fighterOne">Fighter who's name will be displayed</param>
         public static void ExplanationMessage(string fighterOne)
         {
             PrintConsoleMessageColor($"\nNow we need your help! Each of our fighters has different attributes which we need YOU to set for us.\n" +
@@ -176,7 +184,10 @@ namespace Monsterkampfsimulator
                 $"We will ask for each attribute seperately from 1 to 4 and start with your first picked fighter the {fighterOne}.\n");
         }
 
-        /** Show the attributes of the first fighter before we enter the attributes of the 2nd one **/
+        /// <summary>
+        /// Showing the attributes of the first fighter
+        /// </summary>
+        /// <param name="m1">Fighter who's attributes are displayed</param>
         public static void ShowStatsFighterOne(Monster m1)
         {
             PrintConsoleMessageColor($@"
@@ -188,7 +199,11 @@ namespace Monsterkampfsimulator
 | Speed:          | {m1.Speed}");
         }
 
-        /** Transition message between the collection of the attributes of both fighters **/
+        /// <summary>
+        /// Transition message between the collection of the attributes of both fighters
+        /// </summary>
+        /// <param name="fighterOne">First fighter who's name will be displayed</param>
+        /// <param name="fighterTwo">Second fighter who's name will be displayed</param>
         public static void TransitionMessage(Monster fighterOne, Monster fighterTwo)
         {
             PrintConsoleMessageColor($"\n\nGreat! The {fighterOne.Name} now has stats for each of their attributes.\n" +
@@ -197,7 +212,11 @@ namespace Monsterkampfsimulator
                 $"----------------\n");
         }
 
-        /** Show the attributes of both fighters **/
+        /// <summary>
+        /// Show the attributes of both fighters
+        /// </summary>
+        /// <param name="m1">First fighter who's attributes are displayed</param>
+        /// <param name="m2">Second fighter who's attributes are displayed</param>
         public static void ShowStatsBothFighters(Monster m1, Monster m2)
         {
             PrintConsoleMessageColor($@"
@@ -216,7 +235,11 @@ namespace Monsterkampfsimulator
 | Speed:          | {m2.Speed}");
         }
 
-        /** Message ending the attribute collection and telling the user to press any button to start the fight **/
+        /// <summary>
+        /// Message ending the attribute collection and telling the user to press any button to start the fight
+        /// </summary>
+        /// <param name="fighterOne">First fighter who's name will be displayed</param>
+        /// <param name="fighterTwo">Second fighter who's name will be displayed</param>
         public static void CollectionEndMessage(string fighterOne, string fighterTwo)
         {
             PrintConsoleMessageColor($"\nAmazing! Now that both our fighters the {fighterOne} and {fighterTwo} are ready to start their battle please give us the start signal " +
@@ -225,7 +248,10 @@ namespace Monsterkampfsimulator
                 $"IN ORDER TO START THE BATTLE PLEASE PRESS ANY BUTTON!!\n");
         }
 
-        /** ASCII Art and sound for the start of the fight **/
+        /// <summary>
+        /// ASCII Art and sound for the start of the fight
+        /// </summary>
+        /// <param name="FightStartSound">Sound played</param>
         public static void StartFightMessageAndSound(SoundPlayer FightStartSound)
         {
             if (FightStartSound != null)
@@ -243,7 +269,12 @@ namespace Monsterkampfsimulator
             |___/                   ");
         }
 
-        /** Gives out the message which is shown after a fight ended **/
+        /// <summary>
+        /// Message ending fight and showing result
+        /// </summary>
+        /// <param name="m1">Fighter one</param>
+        /// <param name="m2">Fighter two</param>
+        /// <param name="rounds">Amount of rounds that were fought</param>
         public static void FightEndMessage(Monster m1, Monster m2, int rounds)
         {
             PrintConsoleMessageColor(@"
@@ -284,7 +315,9 @@ namespace Monsterkampfsimulator
             }
         }
 
-        /** Contains the credits to all the content used by 3rd parties **/
+        /// <summary>
+        /// Contains the credits to all the content used by 3rd parties
+        /// </summary>
         public static void Credits()
         {
             Console.WriteLine("\n\n\n\n\n");

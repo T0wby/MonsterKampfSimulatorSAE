@@ -131,7 +131,9 @@ namespace Monsterkampfsimulator
         }
 
 
-        /** Function to collect the stats of the 1st fighter **/
+        /// <summary>
+        /// Function to collect the stats of all fighters
+        /// </summary>
         public void GetFighterStats()
         {
 
@@ -177,7 +179,9 @@ namespace Monsterkampfsimulator
             
         }
 
-        /** Comparing speeds and setting the start boolean for the fight **/
+        /// <summary>
+        /// Comparing the speed of the fighters and setting the start boolean for the fight
+        /// </summary>
         public void WhoStartsFight()
         {
             if (chosenFighters[0].Speed > chosenFighters[1].Speed)
@@ -191,7 +195,10 @@ namespace Monsterkampfsimulator
             }
         }
 
-        /** Starting the fight and ending it when either fighter has no health left or the fight took more than 100 rounds **/
+        /// <summary>
+        /// Starting the fight and ending it when one of the fighters has no health left or the fight took more than 100 rounds
+        /// </summary>
+        /// <param name="sound">Sound object from which we call PlayRandomAttackSound()</param>
         public void StartFight(Sound sound)
         {
 
@@ -264,7 +271,9 @@ namespace Monsterkampfsimulator
             Messages.PrintConsoleMessageColor("\nProgramm will resume in 10 seconds!!");
         }
 
-        /** Clearing all stats if a user decides to play another round **/
+        /// <summary>
+        /// Clearing all stats if a user decides to play another round
+        /// </summary>
         public void ClearAllStats()
         {
             for (int i = 0; i < chosenFighters.Count; i++)
@@ -283,7 +292,11 @@ namespace Monsterkampfsimulator
             allAvailableFighters.Clear();
         }
 
-        /** Checking if the user wishes to play again or end the programm **/
+        /// <summary>
+        /// Checking if the user wishes to play again or end the programm
+        /// </summary>
+        /// <param name="playAnother">Bool from the main programm</param>
+        /// <returns>Returns a bool depending on the user input</returns>
         public bool PlayAnother(bool playAnother)
         {
             bool notChosen = true;

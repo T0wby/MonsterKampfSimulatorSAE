@@ -12,8 +12,8 @@ namespace Monsterkampfsimulator
 
         public Goblin(int number, string name)
         {
-            this.number = number;
-            this.name = name;
+            this._number = number;
+            this._name = name;
         }
     }
 }
