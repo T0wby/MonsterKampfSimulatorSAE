@@ -161,7 +161,21 @@ namespace Monsterkampfsimulator
                 // Asking for the Speed value
                 Messages.PrintConsoleMessageColor($"Please give the {chosenFighters[i].Name} a positive Speed value:");
 
-                chosenFighters[i].Speed = Messages.UserInputFloat();
+                if (i > 0)
+                {
+                    do
+                    {
+                        chosenFighters[i].Speed = Messages.UserInputFloat();
+                        if (chosenFighters[i].Speed == chosenFighters[i - 1].Speed)
+                            Messages.PrintErrorColor($"\nPlease make sure that {chosenFighters[i].Name} and {chosenFighters[i - 1].Name} have differant speed values!\n");
+                        else
+                            break;
+                    } while (true);
+                }
+                else
+                {
+                    chosenFighters[i].Speed = Messages.UserInputFloat();
+                }
 
                 if (i<1)
                 {
